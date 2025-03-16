@@ -1,0 +1,1 @@
+# This is the Schemas for the Subscription model.
