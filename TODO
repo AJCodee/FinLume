@@ -1,0 +1,5 @@
+1. Work on hashing password when a new user is created
+
+- firstly import = from passlib.context import CryptContext
+- then create a CryptContext object = bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+- then use the bcrypt_context to hash the password = hashed_password = bcrypt_context.hash(user.password)
