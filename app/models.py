@@ -14,7 +14,7 @@ class User(Base):
     last_name = Column(String, nullable=False)
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
-    hased_password = Column(String)
+    hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     
     bills = relationship("Bills", back_populates="owner")

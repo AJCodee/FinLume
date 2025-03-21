@@ -11,12 +11,17 @@ class UserBase(BaseModel):
     email: EmailStr
     is_active: Optional[bool] = True
     
+class UserCreate(UserBase):
+    """ Inherits from UserBase and add password here as it is sensitive information """
+    password: str # A required feild in the Usercreate class.
+    
 class UserUpdate(UserBase):
     """ Model for updating user information, allowing for partial updates. """
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     username: Optional[str] = None
     email: Optional[str] = None
+    password: Optional[str] = None
     is_active: Optional[bool] = None
 
 class UserResponse(UserBase):
