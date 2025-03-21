@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.routers.user_routes import router as user_router
 
 
 app = FastAPI()
@@ -7,3 +8,6 @@ app = FastAPI()
 @app.get("/")
 async def Root():
     return {"message": "Welcome to FinLume"}
+
+
+app.include_router(user_router)

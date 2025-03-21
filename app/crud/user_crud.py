@@ -1,8 +1,7 @@
-from utils import hash_password
-from models import User
+from app.utils import hash_password
 from sqlalchemy.orm import Session
 from app.schemas.user_schemas import UserBase, UserCreate, UserResponse, UserUpdate
-from database import db_dependency
+from app.database import db_dependency
 from typing import List
 
 class UserCrud:
