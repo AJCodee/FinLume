@@ -7,9 +7,7 @@ from typing import Annotated
 # Database URL, Connects to the database in postgres/PgAdmin
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:passpost@localhost:5432/FinLume"
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

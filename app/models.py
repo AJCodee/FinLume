@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base
+from app.database import Base
 
 # This is the User model
 class User(Base):
@@ -14,7 +14,7 @@ class User(Base):
     last_name = Column(String, nullable=False)
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
+    hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     
     bills = relationship("Bills", back_populates="owner")
