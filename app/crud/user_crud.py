@@ -30,4 +30,9 @@ class UserCrud:
         """ This Method will return all users in the database """
         return db.query(User).all()
         
+        
+    @staticmethod
+    def get_user_by_id(user_id: int, db: db_dependency):
+        """ This method will return a user by their id """
+        return db.query(User).filter(User.id == user_id).first()
     

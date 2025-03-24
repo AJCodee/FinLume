@@ -15,3 +15,7 @@ async def create_user(user: UserCreate, db: db_dependency):
 @router.get("/returnusers", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
 async def return_users(db: db_dependency):
     return UserCrud.get_all_users(db)
+
+@router.get("/userbyid/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+async def get_user(user_id: int, db: db_dependency):
+    return UserCrud.get_user_by_id(user_id, db)
