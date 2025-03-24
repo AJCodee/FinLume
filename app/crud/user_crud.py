@@ -24,5 +24,10 @@ class UserCrud:
         db.commit()
         db.refresh(new_user)
         return new_user
+    
+    @staticmethod
+    def get_all_users(db: db_dependency):
+        """ This Method will return all users in the database """
+        return db.query(User).all()
         
     
