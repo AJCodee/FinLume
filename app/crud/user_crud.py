@@ -36,3 +36,24 @@ class UserCrud:
         """ This method will return a user by their id """
         return db.query(User).filter(User.id == user_id).first()
     
+    @staticmethod
+    def update_user(user_id: int, user_data: UserUpdate, db: db_dependency):
+        """ This method will update a user in the database """
+        existing_user = db.query(User).filter(User.id == user_id).first()
+        
+        if not existing_user:
+            raise ValueError("User not found")
+        
+        # Update the feilds from user_data if they are not None
+        for attr, value in user_data.model_dump().items():
+            if value is not None:
+                if attr == "password":
+                    value = hash_password(value) # Hash the new password if updating.
+    
+                setattr(existing_user, attr, value)
+                
+        # Commit the changes to the database
+        db.commit()
+        db.refresh(existing_user)
+        
+        return existing_user # Return the updated user

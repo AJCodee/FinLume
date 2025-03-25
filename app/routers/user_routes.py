@@ -12,10 +12,14 @@ async def create_user(user: UserCreate, db: db_dependency):
     return UserCrud.create_new_user(user, db)
     
     
-@router.get("/returnusers", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
+@router.get("/return_users", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
 async def return_users(db: db_dependency):
     return UserCrud.get_all_users(db)
 
-@router.get("/userbyid/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+@router.get("/user_by_id/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def get_user(user_id: int, db: db_dependency):
     return UserCrud.get_user_by_id(user_id, db)
+
+@router.put("/update_user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+async def update_user(user_id: int, user: UserUpdate, db: db_dependency):
+    return UserCrud.update_user(user_id, user, db)

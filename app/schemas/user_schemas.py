@@ -20,7 +20,7 @@ class UserUpdate(UserBase):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     username: Optional[str] = None
-    email: Optional[str] = None
+    email: Optional[EmailStr] = None
     password: Optional[str] = None
     is_active: Optional[bool] = None
 
