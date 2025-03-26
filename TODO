@@ -4,4 +4,7 @@
 - then create a CryptContext object = bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 - then use the bcrypt_context to hash the password = hashed_password = bcrypt_context.hash(user.password)
 
-- Start creating endpoints for the users.
+NEEDS WORK / TODO
+
+- When updating and we leave Email as None or 'String' it doesnt comply with the Emailstr Format. Throws error.
+- Work on Delete CRUD / Endpoint for Users
