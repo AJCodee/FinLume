@@ -52,8 +52,8 @@ class UserCrud:
     
                 setattr(existing_user, attr, value)
                 
-        # Commit the changes to the database
-        db.commit()
-        db.refresh(existing_user)
+            # Commit the changes to the database
+            db.commit()
+            db.refresh(existing_user)
         
         return existing_user # Return the updated user
