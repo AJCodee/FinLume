@@ -45,15 +45,15 @@ class UserCrud:
             raise ValueError("User not found")
         
         # Update the feilds from user_data if they are not None
-        for attr, value in user_data.model_dump().items():
-            if value is not None:
-                if attr == "password":
-                    value = hash_password(value) # Hash the new password if updating.
+        user_data_dict = user_data.model_dump(exclude_unset=True)
+        for attr, value in user_data_dict.items():
+            if attr == "password":
+                value = hash_password(value) # Hash the new password if updating.
     
-                setattr(existing_user, attr, value)
+            setattr(existing_user, attr, value)
                 
-            # Commit the changes to the database
-            db.commit()
-            db.refresh(existing_user)
+        # Commit the changes to the database
+        db.commit()
+        db.refresh(existing_user)
         
         return existing_user # Return the updated user

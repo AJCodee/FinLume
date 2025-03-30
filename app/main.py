@@ -13,5 +13,5 @@ Base.metadata.create_all(bind=engine)
 async def Root():
     return {"message": "Welcome to FinLume"}
 
-
+# Included router to activate it.
 app.include_router(user_router)
