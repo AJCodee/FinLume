@@ -47,10 +47,10 @@ class UserCrud:
         # Update the feilds from user_data if they are not None
         user_data_dict = user_data.model_dump(exclude_unset=True)
         for attr, value in user_data_dict.items():
-            if attr == "password":
+            if attr == "password" and value is not None:
                 value = hash_password(value) # Hash the new password if updating.
     
-            setattr(existing_user, attr, value)
+            setattr(existing_user, attr, value) # PARTIAL UPDATES NOT WORKING
                 
         # Commit the changes to the database
         db.commit()
