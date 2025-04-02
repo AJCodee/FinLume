@@ -4,6 +4,11 @@
 - then create a CryptContext object = bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 - then use the bcrypt_context to hash the password = hashed_password = bcrypt_context.hash(user.password)
 
+THINGS TO LOOK AT
+
+- Look into Docker
+- Look into cloud azure ?
+
 NEEDS WORK / TODO
 
 - When updating and we leave Email as None or 'String' it doesnt comply with the Emailstr Format. Throws error.

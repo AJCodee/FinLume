@@ -25,3 +25,5 @@ async def get_user(user_id: int, db: db_dependency):
 @router.put("/update_user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def update_user(user_id: int, user: UserUpdate, db: db_dependency):
     return UserCrud.update_user(user_id, user, db)
+
+# Deleting a user from the database
