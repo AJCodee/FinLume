@@ -22,6 +22,7 @@ async def get_user(user_id: int, db: db_dependency):
     return UserCrud.get_user_by_id(user_id, db)
 
 # Updating a user in the database
+# Using Patch for partial updates. As if you use PUT to change one feild causes feilds you dont change to reset to default.
 @router.put("/update_user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def update_user(user_id: int, user: UserUpdate, db: db_dependency):
     return UserCrud.update_user(user_id, user, db)
