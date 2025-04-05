@@ -15,13 +15,12 @@ class UserCreate(UserBase):
     """ Inherits from UserBase and add password here as it is sensitive information """
     password: str # A required feild in the Usercreate class.
     
-class UserUpdate(UserBase):
+class UserUpdate(BaseModel):
     """ Model for updating user information, allowing for partial updates. """
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     username: Optional[str] = None
     email: Optional[EmailStr] = None
-    password: Optional[str] = None
     is_active: Optional[bool] = None
 
 class UserResponse(UserBase):
@@ -29,4 +28,4 @@ class UserResponse(UserBase):
     id: int
     
     class Config:
-        orm_mode = True
+        from_attributes = True

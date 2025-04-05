@@ -11,5 +11,4 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- When updating and we leave Email as None or 'String' it doesnt comply with the Emailstr Format. Throws error.
-- Work on Delete CRUD / Endpoint for Users
+- Restructure Code for user_crud and user_routes

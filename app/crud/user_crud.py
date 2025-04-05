@@ -8,8 +8,7 @@ from typing import List
 class UserCrud:
     """ This class will contain the CRUD operations for the User model. """
     
-    @staticmethod
-    def create_new_user(user: UserCreate, db: db_dependency):
+    def create_new_user(self, user: UserCreate, db: db_dependency):
         """ This method will create a new user in the database. """
         new_user = User(
             first_name = user.first_name,
@@ -25,19 +24,17 @@ class UserCrud:
         db.refresh(new_user)
         return new_user
     
-    @staticmethod
-    def get_all_users(db: db_dependency):
+    def get_all_users(self, db: db_dependency):
         """ This Method will return all users in the database """
         return db.query(User).all()
         
         
-    @staticmethod
-    def get_user_by_id(user_id: int, db: db_dependency):
+    def get_user_by_id(self, user_id: int, db: db_dependency):
         """ This method will return a user by their id """
         return db.query(User).filter(User.id == user_id).first()
     
-    @staticmethod
-    def update_user(user_id: int, user_data: UserUpdate, db: db_dependency):
+
+    def update_user(self, user_id: int, user_data: UserUpdate, db: db_dependency):
         """ This method will update a user in the database """
         existing_user = db.query(User).filter(User.id == user_id).first()
         
@@ -49,9 +46,6 @@ class UserCrud:
         
         for key, value in user_data_dict.items():
             if value is not None:
-                if key == "password":
-                    value = hash_password(value) # Hash the new password if updating.
-    
                 setattr(existing_user, key, value) # PARTIAL UPDATES NOT WORKING
                 
         # Commit the changes to the database
