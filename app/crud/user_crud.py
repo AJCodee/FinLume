@@ -42,10 +42,9 @@ class UserCrud:
             raise ValueError("User not found")
         
         # Update the feilds from user_data if they are not None
-        user_data_dict = user_data.model_dump(exclude_unset=True)
+        update_data = user_data.model_dump(exclude_unset=True)
         
-        for key, value in user_data_dict.items():
-            if value is not None:
+        for key, value in update_data.items():
                 setattr(existing_user, key, value) # PARTIAL UPDATES NOT WORKING
                 
         # Commit the changes to the database
@@ -53,3 +52,10 @@ class UserCrud:
         db.refresh(existing_user)
         
         return existing_user # Return the updated user
+    
+    def delete_user(self, user_id: int, db: db_dependency):
+        """ This method will delete a user from the database """
+        user_to_delete = db.query(User).filter(User.id == user_id).first()
+        
+        db.delete(user_to_delete)
+        db.commit()

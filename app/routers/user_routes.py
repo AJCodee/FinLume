@@ -30,3 +30,6 @@ async def update_user(user_id: int, user_data: UserUpdate, db: db_dependency):
     return user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
 
 # Deleting a user from the database
+@router.delete("/delete_user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(user_id: int, db: db_dependency):
+    return user_manager.delete_user(user_id=user_id, db=db)
