@@ -33,7 +33,7 @@ class UserCrud:
         """ This method will return a user by their id """
         return db.query(User).filter(User.id == user_id).first()
     
-
+    # Need to check this to see if partail updates are working correctly.
     def update_user(self, user_id: int, user_data: UserUpdate, db: db_dependency):
         """ This method will update a user in the database """
         existing_user = db.query(User).filter(User.id == user_id).first()
@@ -45,7 +45,7 @@ class UserCrud:
         update_data = user_data.model_dump(exclude_unset=True)
         
         for key, value in update_data.items():
-                setattr(existing_user, key, value) # PARTIAL UPDATES NOT WORKING
+                setattr(existing_user, key, value) 
                 
         # Commit the changes to the database
         db.commit()
