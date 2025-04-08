@@ -1,5 +1,4 @@
 from app.utils import hash_password
-from sqlalchemy.orm import Session
 from app.models import User
 from app.schemas.user_schemas import UserBase, UserCreate, UserResponse, UserUpdate
 from app.database import db_dependency

@@ -23,7 +23,7 @@ class SubscriptionUpdate(SubscriptionBase):
     renewal_date: Optional[date] = None
 
 class SubscriptionResponse(SubscriptionBase):
-    """Model for the response of a Subscription"""
+    """Model for the response of a Subscription Includes Subscription ID"""
     
     id: int
     user_id: int # Used to return the ID of the User associated with this Subscription
