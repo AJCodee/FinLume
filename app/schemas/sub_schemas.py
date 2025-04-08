@@ -7,23 +7,26 @@ from typing import Optional, Annotated
 class SubscriptionBase(BaseModel):
     """Base model for Subscription, defines the common attributes"""
     
-    title: Annotated[str, StringConstraints(min_length=3, max_length=20)]
-    price: float
-    description: Annotated[str, StringConstraints(min_length=5, max_length=50)]
-    payment_date: date 
-    payment_method: str
-    is_active: bool
+    service_name: Annotated[str, StringConstraints(min_length=3, max_length=20)]
+    monthly_cost: float
+    renewal_date: date
     
 class SubscriptionCreate(SubscriptionBase):
     """Model for creating a new Subscription"""
-    pass 
+    user_id: int # Used to link a Subscription to a User
 
 class SubscriptionUpdate(SubscriptionBase):
     """Model for updating an existing Subscription"""
-    pass
+    
+    service_name: Optional[str] = None
+    monthly_cost: Optional[float] = None
+    renewal_date: Optional[date] = None
 
 class SubscriptionResponse(SubscriptionBase):
     """Model for the response of a Subscription"""
+    
+    id: int
+    user_id: int # Used to return the ID of the User associated with this Subscription
     
     class Config:
         from_attributes = True

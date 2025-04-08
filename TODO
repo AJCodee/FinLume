@@ -11,4 +11,5 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- Restructure Code for user_crud and user_routes
+- Create routes / CRUD for Subscriptions
+- Work on connecting them to Users.
