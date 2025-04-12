@@ -1,6 +1,6 @@
 from app.database import db_dependency
 from app.schemas.sub_schemas import SubscriptionBase, SubscriptionCreate, SubscriptionResponse, SubscriptionUpdate
-from models import Subscriptions
+from app.models import Subscriptions
 
 class SubscriptionCrud():
     """ This class will contain the CRUD functions for Subscriptions """
