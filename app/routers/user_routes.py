@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from app.schemas.user_schemas import UserBase, UserCreate, UserUpdate, UserResponse
+from app.schemas.user_schemas import UserCreate, UserUpdate, UserResponse
 from app.crud.user_crud import UserCrud 
 from app.database import db_dependency
 from typing import List
@@ -16,20 +16,32 @@ async def create_new_user(user: UserCreate, db: db_dependency):
 # Returning all users    
 @router.get("/return_users", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
 async def get_all_users(db: db_dependency):
-    return user_manager.get_all_users(db=db)
+    users = user_manager.get_all_users(db=db)
+    if not users:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No users found")
+    return users
 
 # Returning a user by ID
 @router.get("/user_by_id/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def get_user_by_id(user_id: int, db: db_dependency):
-    return user_manager.get_user_by_id(user_id=user_id, db=db)
+    user = user_manager.get_user_by_id(user_id=user_id, db=db)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return user
 
 # Updating a user in the database
 # Using Patch for partial updates. As if you use PUT to change one feild causes feilds you dont change to reset to default.
 @router.put("/update_user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def update_user(user_id: int, user_data: UserUpdate, db: db_dependency):
-    return user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
+    updated_user = user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
+    if not updated_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return update_user
 
 # Deleting a user from the database
 @router.delete("/delete_user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(user_id: int, db: db_dependency):
-    return user_manager.delete_user(user_id=user_id, db=db)
+    success = user_manager.delete_user(user_id=user_id, db=db)
+    if not success:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return success
