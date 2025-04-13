@@ -20,3 +20,11 @@ class SubscriptionCrud():
         db.refresh(new_subscription)
         
         return new_subscription
+    
+    def get_all_subscriptions(self, db: db_dependency):
+        """ This function will return all subscriptions in the database """
+        return db.query(Subscriptions).all()
+    
+    def subscriptions_per_user(self, user_id: int, db: db_dependency):
+        """ This function will return all subscriptions for a specific user """
+        return db.query(Subscriptions).filter(Subscriptions.user_id == user_id).all()

@@ -9,12 +9,12 @@ router = APIRouter(tags=["Users"], prefix="/users")
 user_manager = UserCrud()
 
 # Creating a new user.
-@router.post("/usercreate", status_code=status.HTTP_201_CREATED)
+@router.post("/create", status_code=status.HTTP_201_CREATED)
 async def create_new_user(user: UserCreate, db: db_dependency):
     return user_manager.create_new_user(user=user, db=db)
 
 # Returning all users    
-@router.get("/return_users", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
+@router.get("/return-users", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
 async def get_all_users(db: db_dependency):
     users = user_manager.get_all_users(db=db)
     if not users:
@@ -22,7 +22,7 @@ async def get_all_users(db: db_dependency):
     return users
 
 # Returning a user by ID
-@router.get("/user_by_id/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+@router.get("/user-by-id/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def get_user_by_id(user_id: int, db: db_dependency):
     user = user_manager.get_user_by_id(user_id=user_id, db=db)
     if not user:
@@ -31,7 +31,7 @@ async def get_user_by_id(user_id: int, db: db_dependency):
 
 # Updating a user in the database
 # Using Patch for partial updates. As if you use PUT to change one feild causes feilds you dont change to reset to default.
-@router.put("/update_user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+@router.put("/update-user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def update_user(user_id: int, user_data: UserUpdate, db: db_dependency):
     updated_user = user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
     if not updated_user:
@@ -39,7 +39,7 @@ async def update_user(user_id: int, user_data: UserUpdate, db: db_dependency):
     return update_user
 
 # Deleting a user from the database
-@router.delete("/delete_user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/delete-user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(user_id: int, db: db_dependency):
     success = user_manager.delete_user(user_id=user_id, db=db)
     if not success:
