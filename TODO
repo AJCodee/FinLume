@@ -14,4 +14,3 @@ NEEDS WORK / TODO
 - Create routes / CRUD for Subscriptions
 - Check if having the same names in Routers is ok or needs changing
 - Work on connecting them to User (Checks this works)
-- Create an endpoint to return Created Subscriptions for specific Users.

@@ -28,3 +28,18 @@ class SubscriptionCrud():
     def subscriptions_per_user(self, user_id: int, db: db_dependency):
         """ This function will return all subscriptions for a specific user """
         return db.query(Subscriptions).filter(Subscriptions.user_id == user_id).all()
+    
+    def get_subscription_by_id(self, sub_id: int, db: db_dependency):
+        """ This function will return a subscription by its id """
+        return db.query(Subscriptions).filter(Subscriptions.id == sub_id).first()
+    
+    def update_subscription(self, sub_id: int, sub: SubscriptionUpdate, db: db_dependency):
+        """ This function will update a subscription in the database """
+        
+        existing_subscription = db.query(Subscriptions).filter(Subscriptions.id == sub_id)
+        
+        if not existing_subscription:
+            return ValueError('Subscription not found') # Continue this look back at senior Code on ChatAI
+        
+        
+        

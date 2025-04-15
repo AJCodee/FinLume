@@ -23,3 +23,8 @@ async def get_all_subscriptions(db: db_dependency):
 @router.get("/user-subscriptions", status_code=status.HTTP_200_OK)
 async def subscriptions_per_user(user_id: int, db: db_dependency):
     return sub_manager.subscriptions_per_user(user_id=user_id, db=db)
+
+# Return a subscription by ID
+@router.get("/get-by-id/{sub_id}", status_code=status.HTTP_200_OK)
+async def get_subscription_by_id(sub_id: int, db: db_dependency):
+    return sub_manager.get_subscription_by_id(sub_id=sub_id, db=db)
