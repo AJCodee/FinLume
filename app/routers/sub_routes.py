@@ -28,3 +28,8 @@ async def subscriptions_per_user(user_id: int, db: db_dependency):
 @router.get("/get-by-id/{sub_id}", status_code=status.HTTP_200_OK)
 async def get_subscription_by_id(sub_id: int, db: db_dependency):
     return sub_manager.get_subscription_by_id(sub_id=sub_id, db=db)
+
+# Update a subscription
+@router.put("/update/{sub_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def update_subscription(sub_id: int, sub: SubscriptionUpdate, db: db_dependency):
+    return sub_manager.update_subscription(sub_id=sub_id, sub=sub, db=db)
