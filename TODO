@@ -12,5 +12,5 @@ THINGS TO LOOK AT
 NEEDS WORK / TODO
 
 - Create routes / CRUD for Subscriptions
-- Check if having the same names in Routers is ok or needs changing
-- Work on connecting them to User (Checks this works)
+- Work on changing Users CRUD. Similar to Subscriptions
+- Maybe start work on Authentication for a User
