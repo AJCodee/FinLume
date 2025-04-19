@@ -7,6 +7,7 @@ from app.database import db_dependency
 
 router = APIRouter(tags=["subscription"], prefix='/subscription')
 
+# Calling the SubscriptionCrud class to use in the endpoint. 
 sub_manager = SubscriptionCrud()
 
 # Creating a new Subscription
@@ -33,3 +34,8 @@ async def get_subscription_by_id(sub_id: int, db: db_dependency):
 @router.put("/update/{sub_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def update_subscription(sub_id: int, sub: SubscriptionUpdate, db: db_dependency):
     return sub_manager.update_subscription(sub_id=sub_id, sub=sub, db=db)
+
+# Delete a subscription
+@router.delete("/delete/{sub_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_subscription(sub_id: int, db: db_dependency):
+    return sub_manager.delete_subscription(sub_id=sub_id, db=db)

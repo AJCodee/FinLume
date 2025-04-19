@@ -89,5 +89,16 @@ class SubscriptionCrud:
         if sub_update.renewal_date is not None:
             existing_subscription.renewal_date = sub_update.renewal_date
         
-        
+    def delete_subscription(self,sub_id: int, db: db_dependency):
+        """ Deletes a subscription by its ID. """
+        existing_subscription = self.get_subscription_by_id(sub_id, db)
+        if not existing_subscription:
+            raise ValueError('Subscription not found')
+        try:
+            db.delete(existing_subscription)
+            db.commit()
+            return True
+        except Exception as e:
+            db.rollback()
+            raise Exception("Failed to delete subscription") from e
         
