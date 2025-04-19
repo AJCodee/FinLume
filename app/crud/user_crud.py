@@ -8,7 +8,15 @@ class UserCrud:
     """ This class will contain the CRUD operations for the User model. """
     
     def create_new_user(self, user: UserCreate, db: db_dependency):
-        """ This method will create a new user in the database. """
+        """ This method will create a new user in the database. 
+        
+        Args: 
+            user (UserCreate) contains the user data 
+        
+        Returns:
+            User: The created User Instance
+            
+        """
         new_user = User(
             first_name = user.first_name,
             last_name = user.last_name,
@@ -21,6 +29,7 @@ class UserCrud:
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
+        
         return new_user
     
     def get_all_users(self, db: db_dependency):

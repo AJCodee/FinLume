@@ -11,6 +11,6 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- Create routes / CRUD for Subscriptions
 - Work on changing Users CRUD. Similar to Subscriptions
+- Work on Bills CRUD / Routes
 - Maybe start work on Authentication for a User
