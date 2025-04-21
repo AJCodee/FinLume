@@ -1,5 +1,5 @@
 from app.database import db_dependency
-from app.schemas.sub_schemas import SubscriptionBase, SubscriptionCreate, SubscriptionResponse, SubscriptionUpdate
+from app.schemas.sub_schemas import SubscriptionCreate, SubscriptionUpdate
 from app.models import Subscriptions
 from typing import List
 
@@ -89,7 +89,7 @@ class SubscriptionCrud:
         if sub_update.renewal_date is not None:
             existing_subscription.renewal_date = sub_update.renewal_date
         
-    def delete_subscription(self,sub_id: int, db: db_dependency):
+    def delete_subscription(self, sub_id: int, db: db_dependency):
         """ Deletes a subscription by its ID. """
         existing_subscription = self.get_subscription_by_id(sub_id, db)
         if not existing_subscription:
