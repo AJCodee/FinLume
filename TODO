@@ -11,6 +11,6 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- Work on changing Users CRUD. Similar to Subscriptions
 - Work on Bills CRUD / Routes
 - Maybe start work on Authentication for a User
+- Work on making sure notes are clear for anyone that might read this codebase.
