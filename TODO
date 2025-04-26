@@ -11,6 +11,7 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
+- Add \_apply_updates and delete functions to Bills CRUD.
 - Work on Bills CRUD / Routes
 - Maybe start work on Authentication for a User
 - Work on making sure notes are clear for anyone that might read this codebase.
