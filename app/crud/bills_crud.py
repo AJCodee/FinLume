@@ -77,7 +77,31 @@ class BillCRUD:
         """ Used to retrieve a bill bu ID """
         return db.query(Bills).filter(Bills.id == bill_id).first()
     
-    def get_bill_per_user(self, user_id: int, db: db_dependency):
+    def get_bill_per_user(self, user_id: int, db: db_dependency) -> Bills:
         """ Retrives all the bills for a specific user """
-        return db.query(Bills).filter(Bills.user_id == Bills.user_id).all()
+        return db.query(Bills).filter(Bills.user_id == user_id).all()
     
+    def _apply_updates(self, exsisting_bill: Bills, bill_update: BillUpdate):
+        """ Applying updates from BillsUpdate to an exsisting Bill in Database. """
+        
+        if bill_update.title is not None:
+            exsisting_bill.title = bill_update.title
+        if bill_update.amount is not None:
+            exsisting_bill.amount = bill_update.amount
+        if bill_update.due_date is not None:
+            exsisting_bill.due_date = bill_update.due_date
+            
+    def delete_bill(self, bill_id: int, db: db_dependency):
+        """ Used to delete a Bill from the database """
+        
+        exsisting_bill = self.get_bill_by_id(bill_id, db)
+        if not exsisting_bill:
+            raise ValueError("Bill with this id does not exsist.") 
+        try:
+            db.delete(exsisting_bill)
+            db.commit()
+            return True
+        except Exception as e:
+            db.rollback()
+            raise Exception("Failed to delete the bill") from e
+            
