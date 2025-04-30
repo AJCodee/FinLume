@@ -5,7 +5,7 @@ from app.crud.sub_crud import SubscriptionCrud
 from app.schemas.sub_schemas import SubscriptionCreate, SubscriptionUpdate
 from app.database import db_dependency
 
-router = APIRouter(tags=["subscription"], prefix='/subscription')
+router = APIRouter(tags=["Subscription"], prefix='/Subscription')
 
 # Calling the SubscriptionCrud class to use in the endpoint. 
 sub_manager = SubscriptionCrud()

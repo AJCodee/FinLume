@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.routers.user_routes import router as user_router
 from app.routers.sub_routes import router as sub_router
+from app.routers.bills_routes import router as bill_router
 from app.database import engine, Base
 
 app = FastAPI()
@@ -16,3 +17,4 @@ async def Root():
 # Included router to activate it.
 app.include_router(user_router)
 app.include_router(sub_router)
+app.include_router(bill_router)
