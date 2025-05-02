@@ -13,3 +13,11 @@ bill_manager = BillCRUD()
 @router.post("/create", status_code=status.HTTP_201_CREATED)
 async def create_new_bill(bill_data: BillCreate, db: db_dependency):
     return bill_manager.create_new_bill(bill_data=bill_data, db=db)
+
+@router.get("/get-all", status_code=status.HTTP_200_OK)
+async def get_all_bills(db: db_dependency):
+    return bill_manager.get_all_bills(db=db)
+
+@router.get("/users-bills", status_code=status.HTTP_200_OK)
+async def get_bill_by_id(user_id : int, db: db_dependency):
+    return bill_manager.get_bill_by_id(user_id=user_id, db=db)
