@@ -22,6 +22,14 @@ async def get_all_bills(db: db_dependency):
 async def get_bill_by_id(user_id : int, db: db_dependency):
     return bill_manager.get_bill_by_id(user_id=user_id, db=db)
 
+@router.get("/user-bills", status_code=status.HTTP_200_OK)
+async def get_bill_per_user(user_id: int, db: db_dependency):
+    return bill_manager.get_bill_per_user(user_id=user_id, db=db)
+
 @router.put("/update-bill/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def update_bill(bill_id: int, bill_data: BillUpdate, db: db_dependency):
     return bill_manager.update_bill(bill_id=bill_id, bill_data=bill_data, db=db)
+
+@router.delete("/delete/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_bill(bill_id: int, db: db_dependency):
+    return bill_manager.delete_bill(bill_id=bill_id, db=db)
