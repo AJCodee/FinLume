@@ -4,6 +4,7 @@ from app.routers.sub_routes import router as sub_router
 from app.routers.bills_routes import router as bill_router
 from app.database import engine, Base
 
+# Initiates FastAPI.
 app = FastAPI()
 
 # Creates the tables in the database.

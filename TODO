@@ -11,7 +11,7 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- Add \_apply_updates and delete functions to Bills CRUD.
-- Work on Bills CRUD / Routes
+- Work on putting in a user ID and returning all bills and subscriptions for the.
+  (Maybe add this to the User routes / CRUD)
 - Maybe start work on Authentication for a User
 - Work on making sure notes are clear for anyone that might read this codebase.
