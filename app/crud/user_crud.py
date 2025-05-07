@@ -2,7 +2,12 @@ from app.utils import hash_password
 from app.models import User
 from app.schemas.user_schemas import UserCreate, UserUpdate
 from app.database import db_dependency
+from app.crud.bills_crud import BillCRUD
+from app.crud.sub_crud import SubscriptionCrud
 from typing import List
+
+bill_manager = BillCRUD()
+sub_manager = SubscriptionCrud()
 
 class UserCrud:
     """ This class will contain the CRUD operations for the User model. """
@@ -79,6 +84,12 @@ class UserCrud:
     def get_user_by_id(self, user_id: int, db: db_dependency):
         """ This method will return a user by their id """
         return db.query(User).filter(User.id == user_id).first()
+    
+    def get_user_payments(self, user_id: int, db: db_dependency):
+        """ This method will be for returning all the bills and Subscriptions for a user. """
+        bills = bill_manager.get_bill_per_user(user_id=user_id, db=db)
+        subscription = sub_manager.subscriptions_per_user(user_id=user_id, db=db)
+        return bills, subscription 
     
     def _apply_updates(self, exsisting_user: User, user_update: UserUpdate):
         """ This method will apply the updates to the existing user """
