@@ -69,6 +69,8 @@ class UserCrud:
             db.rollback()
             raise ValueError("Failed to update user") from e
         
+    # def authenticate_user():
+        
     def _validate_created_user(self, user_data: UserCreate):
         """ This method will validate the user data before creating a new user."""
         if not user_data.first_name:
