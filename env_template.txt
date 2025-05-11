@@ -1,0 +1,7 @@
+Template for your database connection.
+
+DB_NAME = Database_name
+DB_USERNAME = Your_name
+DB_PASSWORD = Your_password
+DB_HOST = Localhost
+DB_PORT = 5432
