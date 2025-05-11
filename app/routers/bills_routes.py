@@ -1,5 +1,5 @@
 # Routes for Bills.
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, HTTPException
 from app.crud.bills_crud import BillCRUD
 from app.schemas.bills_schemas import BillCreate, BillUpdate
 from app.database import db_dependency
@@ -17,24 +17,39 @@ async def create_new_bill(bill_data: BillCreate, db: db_dependency):
 # To return all the bills.
 @router.get("/get-all", status_code=status.HTTP_200_OK)
 async def get_all_bills(db: db_dependency):
-    return bill_manager.get_all_bills(db=db)
+    bills = bill_manager.get_all_bills(db=db)
+    if not bills:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No bills found")
+    return bills
 
 # Return bills by ID.
-@router.get("/users-bills", status_code=status.HTTP_200_OK)
+@router.get("/bill-by-id", status_code=status.HTTP_200_OK)
 async def get_bill_by_id(user_id : int, db: db_dependency):
-    return bill_manager.get_bill_by_id(user_id=user_id, db=db)
+    bill = bill_manager.get_bill_by_id(user_id=user_id, db=db)
+    if not bill:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bill not found")
+    return bill
 
 # Return all bills for certain user.
 @router.get("/user-bills", status_code=status.HTTP_200_OK)
 async def get_bill_per_user(user_id: int, db: db_dependency):
-    return bill_manager.get_bill_per_user(user_id=user_id, db=db)
+    user_bills = bill_manager.get_bill_per_user(user_id=user_id, db=db)
+    if not user_bills:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No bills found for this user")
+    return user_bills
 
 # Updates a bill in the database.
 @router.put("/update-bill/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def update_bill(bill_id: int, bill_data: BillUpdate, db: db_dependency):
-    return bill_manager.update_bill(bill_id=bill_id, bill_data=bill_data, db=db)
+    updated_bill = bill_manager.update_bill(bill_id=bill_id, bill_data=bill_data, db=db)
+    if not updated_bill:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bill not found")
+    return updated_bill
 
 # Deletes a bill in the database.
 @router.delete("/delete/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_bill(bill_id: int, db: db_dependency):
-    return bill_manager.delete_bill(bill_id=bill_id, db=db)
+    success = bill_manager.delete_bill(bill_id=bill_id, db=db)
+    if not success:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bill not found")
+    return success
