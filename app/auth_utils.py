@@ -18,4 +18,13 @@ oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
 class Token(BaseModel):
     access_token: str
     token_type: str
-    expires: datetime
+    
+# This function creates a signed JWT token with an expiration time.
+# The token contains the user ID and other claims.
+# The token is signed using the secret key and algorithm specified in the environment variables.
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt

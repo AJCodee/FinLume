@@ -18,3 +18,9 @@ NEEDS WORK / TODO
 - Adjust my routes add a login endpoint. Adjust other endpoints to handle auth. (db_injection - for getting current user)
 - Work on making sure notes are clear for anyone that might read this codebase.
 - Make a file to keep sensitive info secret for me.
+
+WHERE I LEFT OFF
+
+- Created auth.utils
+- Added a function to user_crud called authenticate_user()
+- Now need to work on adding an Endpoint in user_routes()

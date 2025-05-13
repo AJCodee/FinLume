@@ -1,4 +1,4 @@
-from app.utils import hash_password
+from app.utils import hash_password, verify_password
 from app.models import User
 from app.schemas.user_schemas import UserCreate, UserUpdate
 from app.database import db_dependency
@@ -69,14 +69,31 @@ class UserCrud:
             db.rollback()
             raise ValueError("Failed to update user") from e
         
-    # def authenticate_user():
-        
     def _validate_created_user(self, user_data: UserCreate):
         """ This method will validate the user data before creating a new user."""
         if not user_data.first_name:
             raise ValueError("First name is required")
         if not user_data.last_name:
             raise ValueError("Last name is required")
+        
+    # Fucntion for authenticating a user.
+    def authenticate_user(self, username: str, password: str, db: db_dependency) -> User:
+        """ This method will authenticate a user by their username and password. 
+        
+        Args:
+            username (str): The username of the user.
+            password (str): The password of the user.
+            
+        Returns:
+            User: The authenticated user instance.
+            
+        Raises:
+            ValueError: If the username or password is incorrect.
+        """
+        user = db.query(User).filter(User.username == username).first()
+        if not user or not verify_password(password, user.hashed_password):
+            raise ValueError("Invalid username or password")
+        return user
     
     def get_all_users(self, db: db_dependency):
         """ This Method will return all users in the database """
