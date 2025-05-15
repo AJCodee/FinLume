@@ -28,3 +28,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+# This function decodes the JWT token and verifies its signature.
+# If the token is valid, it returns the payload (claims) contained in the token.
+# def get_current_user():
