@@ -12,23 +12,11 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY") # Secret key for JWT encoding and decoding (Add to .env file)
 ALGORITHM = os.getenv("ALGORITHM")
 
-# code for generating JWT tokens for user.
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-    
-# This function creates a signed JWT token with an expiration time.
-# The token contains the user ID and other claims.
-# The token is signed using the secret key and algorithm specified in the environment variables.
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-# This function decodes the JWT token and verifies its signature.
-# If the token is valid, it returns the payload (claims) contained in the token.
-# def get_current_user():
+# LIST OF THINGS TO DO FOR JWT AUTH: (Maybe create an Auth.py file)
+# 1. Create a class BaseModel for the new user (UserCreate)
+# 2. Create a class for Token (access_token / token_type)
+# 3. Create a Post Endpoint for Creating a new user (UserCreate) Check mine in user_schemas.py
+# 4. Create a post for login_for_access_token (UserLogin)
+# 5. Create a function for authenticate_user (Check mine in user_schemas.py)
+# 6. Create a function for create_access_token (Check mine in user_schemas.py)
+# 7. Create a function for get_current_user (Check mine in user_schemas.py) create a dependency.
