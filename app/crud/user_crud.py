@@ -42,7 +42,7 @@ class UserCrud:
         
         return new_user
     
-    def update_user(self, user_id: int, user_data: UserCreate, db: db_dependency) -> User:
+    def update_user(self, user_id: int, user_data: UserUpdate, db: db_dependency) -> User:
         """ This method will update a user in the database. 
         
         Args:
