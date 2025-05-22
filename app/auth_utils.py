@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
 from typing import Optional, Annotated
 from jose import JWTError, jwt
@@ -13,33 +13,29 @@ SECRET_KEY = os.getenv("SECRET_KEY") # Secret key for JWT encoding and decoding 
 ALGORITHM = os.getenv("ALGORITHM")
 ACCEES_TOKEN_EXPIRE_MINUTES = 30 # Expiration time for access token in minutes
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 class Token(BaseModel):
     access_token: str
     token_type: str
     
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=ACCEES_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+def create_access_token(username: str, user_id: int, expires_delta: timedelta):
+    data = {
+        "sub": username,
+        "user_id": user_id,
+        "exp": datetime.now(timezone.utc) + expires_delta
+    }
+    return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
+        paylaod = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = paylaod.get("sub")
+        user_id: int = paylaod.get("user_id")
+        if username is None or user_id is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
+        return {"username": username, "user_id": user_id}
     except JWTError:
-        raise credentials_exception
-    return username
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
+       

@@ -1,8 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user_schemas import UserCreate, UserUpdate, UserResponse
 from app.crud.user_crud import UserCrud 
-from app.database import db_dependency
-from typing import List
+from app.database import db_dependency, user_dependency
+from typing import List, Annotated
+from app.auth_utils import Token
+from datetime import timedelta
+from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter(tags=["Users"], prefix="/users")
 
@@ -12,6 +15,15 @@ user_manager = UserCrud()
 @router.post("/create", status_code=status.HTTP_201_CREATED)
 async def create_new_user(user: UserCreate, db: db_dependency):
     return user_manager.create_new_user(user=user, db=db)
+
+@router.post("/token", response_model=Token, status_code=status.HTTP_200_OK)
+async def create_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
+    """ This endpoint will create a new access token for the user. """
+    user = user_manager.authenticate_user(username=form_data.username, password=form_data.password, db=db)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+    token = user_manager.create_access_token(username=user.username, user_id=user.id, expires_delta=timedelta(minutes=30))
+    return {"access_token": token, "token_type": "bearer"}
 
 # Returning all users    
 @router.get("/return-users", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
@@ -31,7 +43,7 @@ async def get_user_by_id(user_id: int, db: db_dependency):
 
 # Endpoint for returning all the bills and subscription for user.
 @router.get("/all-payments/{user_id}", status_code=status.HTTP_200_OK)
-async def get_user_payments(user_id: int, db: db_dependency):
+async def get_user_payments(user_id: int, user: user_dependency, db: db_dependency):
     user_data = user_manager.get_user_payments(user_id=user_id, db=db)
     if not user_data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")

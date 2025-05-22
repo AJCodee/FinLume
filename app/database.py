@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from fastapi import Depends
 from typing import Annotated
 from dotenv import load_dotenv
+from app.auth_utils import get_current_user
 import os
 
 load_dotenv()
@@ -32,3 +33,4 @@ def get_db():
         db.close()
         
 db_dependency = Annotated[Session, Depends(get_db)]
+user_dependency = Annotated[dict, Depends(get_current_user)]

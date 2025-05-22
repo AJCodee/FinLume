@@ -42,6 +42,26 @@ class UserCrud:
         
         return new_user
     
+    def authenticate_user(self, username: str, password: str, db: db_dependency) -> User:
+        """ This method will authenticate a user by their username and password. 
+        
+        Args:
+            username (str): The username of the user.
+            password (str): The password of the user.
+            
+        Returns:
+            User: The authenticated user instance.
+            
+        Raises:
+            ValueError: If the credentials are invalid.
+        """
+        
+        user = db.query(User).filter(User.username == username).first()
+        if not user or not verify_password(password, user.hashed_password):
+            raise ValueError("Invalid credentials")
+        
+        return user
+    
     def update_user(self, user_id: int, user_data: UserUpdate, db: db_dependency) -> User:
         """ This method will update a user in the database. 
         
