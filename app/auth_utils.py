@@ -15,10 +15,12 @@ ACCEES_TOKEN_EXPIRE_MINUTES = 30 # Expiration time for access token in minutes
 
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
 
+# Define the token model
 class Token(BaseModel):
     access_token: str
     token_type: str
-    
+
+# Function to create an access token    
 def create_access_token(username: str, user_id: int, expires_delta: timedelta):
     data = {
         "sub": username,
@@ -27,7 +29,7 @@ def create_access_token(username: str, user_id: int, expires_delta: timedelta):
     }
     return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
 
-
+# Function to get the current user from the token
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
         paylaod = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

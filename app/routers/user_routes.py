@@ -43,7 +43,7 @@ async def get_user_by_id(user_id: int, db: db_dependency):
 
 # Endpoint for returning all the bills and subscription for user.
 @router.get("/all-payments/{user_id}", status_code=status.HTTP_200_OK)
-async def get_user_payments(user_id: int, user: user_dependency, db: db_dependency):
+async def get_user_payments(user_id: int, user: user_dependency, db: db_dependency): # Added user dependency to get the current user (Adds the login oiption)
     user_data = user_manager.get_user_payments(user_id=user_id, db=db)
     if not user_data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
