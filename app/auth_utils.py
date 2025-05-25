@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv("SECRET_KEY") # Secret key for JWT encoding and decoding 
 ALGORITHM = os.getenv("ALGORITHM")
 ACCEES_TOKEN_EXPIRE_MINUTES = 30 # Expiration time for access token in minutes
 
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl="users/token")
 
 # Define the token model
 class Token(BaseModel):
