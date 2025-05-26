@@ -22,7 +22,7 @@ async def create_access_token(form_data: Annotated[OAuth2PasswordRequestForm, De
     user = user_manager.authenticate_user(username=form_data.username, password=form_data.password, db=db)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-    token = create_access_token(username=user.username, user_id=user.id, expires_delta=timedelta(minutes=30))
+    token = create_access_token(user.username, user.id, timedelta(minutes=30))
     return {"access_token": token, "token_type": "bearer"}
 
 # Returning all users    
@@ -56,7 +56,7 @@ async def update_user(user_id: int, user_data: UserUpdate, user: user_dependency
     updated_user = user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
     if not updated_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    return update_user
+    return updated_user
 
 # Deleting a user from the database
 @router.delete("/delete-user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
