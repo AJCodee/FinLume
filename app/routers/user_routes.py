@@ -17,7 +17,7 @@ async def create_new_user(user: UserCreate, db: db_dependency):
     return user_manager.create_new_user(user=user, db=db)
 
 @router.post("/token", response_model=Token, status_code=status.HTTP_200_OK)
-async def create_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
     """ This endpoint will create a new access token for the user. """
     user = user_manager.authenticate_user(username=form_data.username, password=form_data.password, db=db)
     if not user:
