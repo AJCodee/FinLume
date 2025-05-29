@@ -21,7 +21,5 @@ NEEDS WORK / TODO
 
 WHERE I LEFT OFF
 
-- I need to remove create a new user from user_crud and create an auth_crud for dealing with this
-- then add the authenticate_user into this as well.
-- Then the Users Endpoints deal with updating details once logged in
 - create auth_crud and auth_routes for dealing with Authentication.
+- Work on unit tests
