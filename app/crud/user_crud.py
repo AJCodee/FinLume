@@ -1,4 +1,3 @@
-from app.utils import hash_password, verify_password
 from app.models import User
 from app.schemas.user_schemas import UserCreate, UserUpdate
 from app.database import db_dependency
@@ -11,56 +10,6 @@ sub_manager = SubscriptionCrud()
 
 class UserCrud:
     """ This class will contain the CRUD operations for the User model. """
-    
-    def create_new_user(self, user: UserCreate, db: db_dependency) -> User:
-        """ This method will create a new user in the database. 
-        
-        Args: 
-            user (UserCreate) contains the user data.
-        
-        Returns:
-            User: The created User Instance.
-            
-        Raises:
-            ValueError: If the provided data is invalid.
-            
-        """
-        self._validate_created_user(user)
-        
-        new_user = User(
-            first_name = user.first_name,
-            last_name = user.last_name,
-            username = user.username,
-            email = user.email,
-            hashed_password = hash_password(user.password),
-            is_active = user.is_active
-        )
-        
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
-        
-        return new_user
-    
-    def authenticate_user(self, username: str, password: str, db: db_dependency) -> User:
-        """ This method will authenticate a user by their username and password. 
-        
-        Args:
-            username (str): The username of the user.
-            password (str): The password of the user.
-            
-        Returns:
-            User: The authenticated user instance.
-            
-        Raises:
-            ValueError: If the credentials are invalid.
-        """
-        
-        user = db.query(User).filter(User.username == username).first()
-        if not user or not verify_password(password, user.hashed_password):
-            raise ValueError("Invalid credentials")
-        
-        return user
     
     def update_user(self, user_id: int, user_data: UserUpdate, db: db_dependency) -> User:
         """ This method will update a user in the database. 
@@ -88,13 +37,6 @@ class UserCrud:
         except Exception as e:
             db.rollback()
             raise ValueError("Failed to update user") from e
-        
-    def _validate_created_user(self, user_data: UserCreate):
-        """ This method will validate the user data before creating a new user."""
-        if not user_data.first_name:
-            raise ValueError("First name is required")
-        if not user_data.last_name:
-            raise ValueError("Last name is required")
     
     def get_all_users(self, db: db_dependency):
         """ This Method will return all users in the database """
