@@ -23,3 +23,8 @@ WHERE I LEFT OFF
 
 - create auth_crud and auth_routes for dealing with Authentication.
 - Work on unit tests
+
+LEFT OFF
+
+- Created and moved functions to auth_crud() from users_crud
+- Work on making changes to user_routes and move endpoints to auth_routes to match crud.
