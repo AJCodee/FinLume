@@ -42,10 +42,13 @@ class UserCrud:
         """ This Method will return all users in the database """
         return db.query(User).all()
         
-        
     def get_user_by_id(self, user_id: int, db: db_dependency):
         """ This method will return a user by their id """
         return db.query(User).filter(User.id == user_id).first()
+    
+    def get_user_by_username(self, username: str, db: db_dependency):
+        """ This method will return a user by their username """
+        return db.query(User).filter(User.username == username).first()
     
     def get_user_payments(self, user_id: int, db: db_dependency):
         """ This method will be for returning all the bills and Subscriptions for a user. """
