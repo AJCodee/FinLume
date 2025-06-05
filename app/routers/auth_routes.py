@@ -23,6 +23,7 @@ async def register_user(user: UserCreate, db: db_dependency):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already exists")
     return auth_manager.create_new_user(user=user, db=db)
 
+# Endpoint to login and get a token
 @router.post("/token", response_model=Token, status_code=status.HTTP_200_OK)
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
     """ This endpoint will create a new access token for the user. """
