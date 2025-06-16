@@ -24,6 +24,7 @@ async def get_user_by_id(user_id: int, db: db_dependency):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user
 
+# Endpoint for finding a user by username
 @router.get("/user-by-username/{username}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def get_user_by_username(username: str, db: db_dependency):
     user = user_manager.get_user_by_username(username=username, db=db)

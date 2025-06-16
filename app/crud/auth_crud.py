@@ -61,3 +61,4 @@ class AuthCrud:
             raise ValueError("Invalid credentials")
         
         return user
+    
