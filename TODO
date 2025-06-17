@@ -11,11 +11,6 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- Maybe start work on Authentication for a User
-- Add a new function in the user_crud class to authenticate user.
-- Create a Jwt utils for creating token and verifying token.
-- Create a auth_dependecies file for handling get_current_user.
-- Adjust my routes add a login endpoint. Adjust other endpoints to handle auth. (db_injection - for getting current user)
 - Work on making sure notes are clear for anyone that might read this codebase.
 - Make a file to keep sensitive info secret for me.
 
