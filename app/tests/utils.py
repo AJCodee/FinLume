@@ -5,8 +5,11 @@ from sqlalchemy import create_engine, text
 from database import Base, sessionmaker
 from main import app
 from fastapi.testclient import TestClient
+from app.auth_utils import get_current_user
+from app.models import Users, Bills, Subscriptions
 import pytest
-from app.database import get_db 
+from app.utils import bcrypt_context
+from app.database import get_db
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./testdb.db"
 
@@ -24,8 +27,26 @@ def override_get_db():
         yield db
     finally:
         db.close()
+
+# Override the get_current_user dependency for testing        
+def override_get_current_user():
+    return {"username": "alextest", "id": 1}
         
 client = TestClient(app)
 
-# Override the database dependency in the FastAPI app
-app.dependency_overrides[get_db] = override_get_db
+@pytest.fixture
+def test_user():
+    user = Users(
+        username="alextest",
+        first_name= "Alex",
+        last_name="Hedges",
+        email= "ajhedges@email.com",
+        hashed_password= bcrypt_context.hash("testpassword"))
+        
+    db = TestingSessionLocal()
+    db.add(user)
+    db.commit()
+    yield user
+    with engine.connect() as connection:
+        connection.execute(text("DELETE FROM users;"))
+        connection.commit()
