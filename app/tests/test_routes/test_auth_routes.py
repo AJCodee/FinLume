@@ -1,6 +1,5 @@
 from app.database import Base, get_db
-from app.models import Users
-from app.crud import create_user, get_user_by_username, update_user, delete_user
+from app.models import User
 from app.tests.utils import *
 
 app.dependency_overrides[get_db] = override_get_db

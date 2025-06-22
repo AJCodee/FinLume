@@ -2,13 +2,13 @@
 # This file will contain utility functions for testing purposes.
 
 from sqlalchemy import create_engine, text
-from database import Base, sessionmaker
-from main import app
+from app.database import Base, sessionmaker
+from app.main import app
 from fastapi.testclient import TestClient
 from app.auth_utils import get_current_user
-from app.models import Users, Bills, Subscriptions
+from app.models import User, Bills, Subscriptions
 import pytest
-from app.utils import bcrypt_context
+from app.utils import hash_password
 from app.database import get_db
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./testdb.db"
@@ -36,12 +36,12 @@ client = TestClient(app)
 
 @pytest.fixture
 def test_user():
-    user = Users(
+    user = User(
         username="alextest",
         first_name= "Alex",
         last_name="Hedges",
         email= "ajhedges@email.com",
-        hashed_password= bcrypt_context.hash("testpassword"))
+        hashed_password= hash_password("testpassword"))
         
     db = TestingSessionLocal()
     db.add(user)

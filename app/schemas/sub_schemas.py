@@ -28,5 +28,5 @@ class SubscriptionResponse(SubscriptionBase):
     id: int
     user_id: int # Used to return the ID of the User associated with this Subscription
     
-    class Config:
+    class ConfigDict:
         from_attributes = True

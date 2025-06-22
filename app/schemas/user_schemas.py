@@ -27,6 +27,6 @@ class UserResponse(UserBase):
     """ Model for user responses, Includes the user's ID. """
     id: int
     
-    class Config:
+    class ConfigDict:
         from_attributes = True
         
