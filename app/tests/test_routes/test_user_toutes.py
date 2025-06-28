@@ -35,3 +35,12 @@ def test_get_user_by_id_not_found():
     response = client.get(F"/users/user-by-id/{non_exsisting_user_id}")
     assert response.status_code == 404
     assert response.json()['detail'] == "User not found"
+
+# Testing getting a user by username
+def test_get_user_by_username(test_user):
+    username = test_user.username
+    response = client.get(f"/users/user-by-username/{username}")
+    assert response.status_code == 200
+    data = response.json()
+    
+    assert data['username'] == test_user.username
