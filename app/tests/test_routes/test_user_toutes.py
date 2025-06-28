@@ -51,3 +51,7 @@ def test_get_user_by_username_not_found():
     response = client.get(f"/users/user-by-username/{non_exsisting_username}")
     assert response.status_code == 404
     assert response.json()['detail'] == "User not found"
+    
+# Testing returning all payments for a user using ID
+def test_get_user_payments(test_user_payment):
+     

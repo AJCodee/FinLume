@@ -50,3 +50,40 @@ def test_user():
     with engine.connect() as connection:
         connection.execute(text("DELETE FROM users;"))
         connection.commit()
+        
+@pytest.fixture
+def test_user_payment():
+    user = User(
+        username="alextest",
+        first_name= "Alex",
+        last_name="Hedges",
+        email= "ajhedges@email.com",
+        hashed_password= hash_password("testpassword"))
+        
+    db = TestingSessionLocal()
+    db.add(user)
+    db.commit()
+    
+    # Creating some fake payments for testing purposes
+    payment1 = Bills(
+        title = 'gas',
+        amount = '18',
+        due_date = '01/01/2025'
+    )
+    
+    payment2 = Subscriptions(
+        service_name = 'Netflix',
+        monthly_cost = '15',
+        renewal_date = '01/01/2024'
+    )
+    
+    db.add_all([payment1, payment2])
+    db.commit()
+    
+    yield user
+
+    # Cleanup
+    with engine.connect() as connection:
+        connection.execute(text("DELETE FROM payments WHERE user_id=:user_id"), {'user_id': user.id})
+        connection.execute(text("DELETE FROM users WHERE id=:user_id"), {'user_id': user.id})
+        connection.commit()
