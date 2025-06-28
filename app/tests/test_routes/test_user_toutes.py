@@ -44,3 +44,10 @@ def test_get_user_by_username(test_user):
     data = response.json()
     
     assert data['username'] == test_user.username
+    
+# Testing getting a user by username that doesnt exsist
+def test_get_user_by_username_not_found():
+    non_exsisting_username = 'testuser'
+    response = client.get(f"/users/user-by-username/{non_exsisting_username}")
+    assert response.status_code == 404
+    assert response.json()['detail'] == "User not found"
