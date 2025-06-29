@@ -11,15 +11,7 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- Work on making sure notes are clear for anyone that might read this codebase.
-- Make a file to keep sensitive info secret for me.
+- Make sure to go in Test utils and change the payments
+- amount should be amount = 18 not amount = '18'
 
-WHERE I LEFT OFF
-
-- create auth_crud and auth_routes for dealing with Authentication.
-- Work on unit tests
-
-LEFT OFF
-
-- Created and moved functions to auth_crud() from users_crud
-- Work on making changes to user_routes and move endpoints to auth_routes to match crud.
+wrong format.....
