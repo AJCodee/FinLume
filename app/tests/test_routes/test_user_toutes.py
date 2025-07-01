@@ -64,4 +64,4 @@ def test_get_user_payments(test_user_payment):
     
     # verify the contents of payments 
     titles = [payment['title'] for payment in data]
-    assert "gas" in titles
+    assert "gas" in titles # CHECK THIS AS NOT FACT CORRECT.
