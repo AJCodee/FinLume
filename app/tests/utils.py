@@ -34,6 +34,7 @@ def override_get_current_user():
         
 client = TestClient(app)
 
+# function used to import a test user to test endpoints
 @pytest.fixture
 def test_user():
     user = User(
@@ -50,7 +51,8 @@ def test_user():
     with engine.connect() as connection:
         connection.execute(text("DELETE FROM users;"))
         connection.commit()
-        
+
+# Function used to import test payments against endpoints
 @pytest.fixture
 def test_user_payment():
     user = User(
