@@ -53,18 +53,11 @@ def test_user():
         connection.commit()
 
 # Function used to import test payments against endpoints
+# Imported Test user to stop creating users with same credentials clashing.
 @pytest.fixture
-def test_user_payment():
-    user = User(
-        username="alextest",
-        first_name= "Alex",
-        last_name="Hedges",
-        email= "ajhedges@email.com",
-        hashed_password= hash_password("testpassword"))
-        
+def test_user_payment(test_user):
+
     db = TestingSessionLocal()
-    db.add(user)
-    db.commit()
     
     # Creating some fake payments for testing purposes
     payment1 = Bills(
@@ -82,10 +75,10 @@ def test_user_payment():
     db.add_all([payment1, payment2])
     db.commit()
     
-    yield user
+    yield test_user
 
     # Cleanup
     with engine.connect() as connection:
-        connection.execute(text("DELETE FROM payments WHERE user_id=:user_id"), {'user_id': user.id})
-        connection.execute(text("DELETE FROM users WHERE id=:user_id"), {'user_id': user.id})
+        connection.execute(text("DELETE FROM payments WHERE user_id=:user_id"), {'user_id':test_user.id})
+        connection.execute(text("DELETE FROM users WHERE id=:user_id"), {'user_id': test_user.id})
         connection.commit()
