@@ -47,6 +47,7 @@ def test_user():
     db = TestingSessionLocal()
     db.add(user)
     db.commit()
+    db.refresh(user)
     yield user
     with engine.connect() as connection:
         connection.execute(text("DELETE FROM users;"))
@@ -62,14 +63,16 @@ def test_user_payment(test_user):
     # Creating some fake payments for testing purposes
     payment1 = Bills(
         title = 'gas',
-        amount = '18',
-        due_date = '01/01/2025'
+        amount = 18,
+        due_date = '01/01/2025',
+        user_id = test_user.id # Link Bill to the user.
     )
     
     payment2 = Subscriptions(
         service_name = 'Netflix',
-        monthly_cost = '15',
-        renewal_date = '01/01/2024'
+        monthly_cost = 15,
+        renewal_date = '01/01/2024',
+        user_id = test_user.id # Link Subscription to the user.
     )
     
     db.add_all([payment1, payment2])
@@ -77,8 +80,9 @@ def test_user_payment(test_user):
     
     yield test_user
 
-    # Cleanup
+    # Cleanup: Assumes payment tables are cleaned as shown.
     with engine.connect() as connection:
-        connection.execute(text("DELETE FROM payments WHERE user_id=:user_id"), {'user_id':test_user.id})
+        connection.execute(text("DELETE FROM bills WHERE user_id=:user_id"), {'user_id': test_user.id})
+        connection.execute(text("DELETE FROM subscriptions WHERE user_id=:user_id"), {'user_id': test_user.id})
         connection.execute(text("DELETE FROM users WHERE id=:user_id"), {'user_id': test_user.id})
         connection.commit()

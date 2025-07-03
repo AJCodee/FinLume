@@ -53,7 +53,7 @@ def test_get_user_by_username_not_found():
     assert response.json()['detail'] == "User not found"
     
 # Testing returning all payments for a user using ID
-"""def test_get_user_payments(test_user_payment):
+def test_get_user_payments(test_user_payment):
     user_id = test_user_payment.id
     response = client.get(f"/users/all-payments/{user_id}")
     assert response.status_code == 200
@@ -63,5 +63,5 @@ def test_get_user_by_username_not_found():
     assert len(data) == 2
     
     # verify the contents of payments 
-    titles = [payment['title'] for payment in data]
-    assert "gas" in titles # CHECK THIS AS NOT FACT CORRECT."""
+    titles = [p.get('title') for p in data if 'title' in p]
+    assert "gas" in titles

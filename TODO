@@ -14,4 +14,4 @@ NEEDS WORK / TODO
 - Make sure to go in Test utils and change the payments
 - amount should be amount = 18 not amount = '18'
 
-wrong format.....
+wrong format..... Look into changing payments in utils test_user.

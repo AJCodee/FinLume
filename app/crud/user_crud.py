@@ -53,7 +53,7 @@ class UserCrud:
         """ This method will be for returning all the bills and Subscriptions for a user. """
         bills = bill_manager.get_bill_per_user(user_id=user_id, db=db)
         subscription = sub_manager.subscriptions_per_user(user_id=user_id, db=db)
-        return bills, subscription 
+        return bills + subscription 
     
     def _apply_updates(self, exsisting_user: User, user_update: UserUpdate):
         """ This method will apply the updates to the existing user """
