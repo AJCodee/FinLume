@@ -44,10 +44,11 @@ async def get_user_payments(user_id: int, user: user_dependency, db: db_dependen
 # Using Patch for partial updates. As if you use PUT to change one feild causes feilds you dont change to reset to default.
 @router.put("/update-user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def update_user(user_id: int, user_data: UserUpdate, user: user_dependency, db: db_dependency):
-    updated_user = user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
-    if not updated_user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    return updated_user
+    try:
+        updated_user = user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
+        return updated_user
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 # Deleting a user from the database
 @router.delete("/delete-user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)

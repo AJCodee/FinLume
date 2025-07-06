@@ -84,3 +84,10 @@ def test_update_user(test_user):
     updated_user = response.json()
     assert updated_user['username'] == "testalex"
     assert updated_user['id'] == user_id # double checking its the same user.
+    
+def test_update_user_fail():
+    no_user_id = 9944
+    new_data = {"username": "shouldfail"} # Pydantic still expects a username as shown in schema to be valid.
+    response = client.put(F"/users/update-user/{no_user_id}", json=new_data)
+    assert response.status_code == 404
+    assert response.json()['detail'] == "User not found"

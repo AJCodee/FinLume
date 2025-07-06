@@ -26,7 +26,7 @@ class UserCrud:
         
         exsisting_user = self.get_user_by_id(user_id, db)
         if not exsisting_user:
-            raise ValueError("User does not exist")
+            raise ValueError("User not found")
         
         self._apply_updates(exsisting_user, user_data)
         
