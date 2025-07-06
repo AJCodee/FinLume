@@ -65,3 +65,22 @@ def test_get_user_payments(test_user_payment):
     # verify the contents of payments 
     titles = [p.get('title') for p in data if 'title' in p]
     assert "gas" in titles
+    
+def test_get_user_payments_not_found():
+    non_user_id = 9955
+    response = client.get(F"/users/all-payments/{non_user_id}")
+    assert response.status_code == 404
+    assert response.json()['detail'] == "User not found"
+    
+def test_update_user(test_user):
+    user_id = test_user.id
+    
+    new_data = {"username": "testalex"}
+    
+    # Update the user with PUT or PATCH
+    response = client.put(f"/users/update-user/{user_id}", json=new_data)
+    assert response.status_code == 200 
+    
+    updated_user = response.json()
+    assert updated_user['username'] == "testalex"
+    assert updated_user['id'] == user_id # double checking its the same user.
