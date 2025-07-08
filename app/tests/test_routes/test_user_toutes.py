@@ -91,3 +91,13 @@ def test_update_user_fail():
     response = client.put(F"/users/update-user/{no_user_id}", json=new_data)
     assert response.status_code == 404
     assert response.json()['detail'] == "User not found"
+    
+def test_delete_user(test_user):
+    test_user_id = test_user.id
+    response = client.delete(f"/users/delete-user/{test_user_id}")
+    assert response.status_code == 204
+    
+    # Check the has been deleted by trying to retrieve them again.
+    response = client.get(f"/users/user-by-id/{test_user_id}")
+    assert response.status_code == 404
+    assert response.json()['detail'] == "User not found"
