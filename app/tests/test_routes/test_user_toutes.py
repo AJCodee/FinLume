@@ -65,13 +65,15 @@ def test_get_user_payments(test_user_payment):
     # verify the contents of payments 
     titles = [p.get('title') for p in data if 'title' in p]
     assert "gas" in titles
-    
+
+# Testing returning user payments with a non exsisting user.
 def test_get_user_payments_not_found():
     non_user_id = 9955
     response = client.get(F"/users/all-payments/{non_user_id}")
     assert response.status_code == 404
     assert response.json()['detail'] == "User not found"
-    
+
+# Testing the update user route
 def test_update_user(test_user):
     user_id = test_user.id
     
@@ -84,14 +86,16 @@ def test_update_user(test_user):
     updated_user = response.json()
     assert updated_user['username'] == "testalex"
     assert updated_user['id'] == user_id # double checking its the same user.
-    
+
+# Testing update a user that does not exsist in the database.
 def test_update_user_fail():
     no_user_id = 9944
     new_data = {"username": "shouldfail"} # Pydantic still expects a username as shown in schema to be valid.
     response = client.put(F"/users/update-user/{no_user_id}", json=new_data)
     assert response.status_code == 404
     assert response.json()['detail'] == "User not found"
-    
+
+# Testing the delete user route.
 def test_delete_user(test_user):
     test_user_id = test_user.id
     response = client.delete(f"/users/delete-user/{test_user_id}")
