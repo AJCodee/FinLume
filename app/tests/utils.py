@@ -86,3 +86,13 @@ def test_user_payment(test_user):
         connection.execute(text("DELETE FROM subscriptions WHERE user_id=:user_id"), {'user_id': test_user.id})
         connection.execute(text("DELETE FROM users WHERE id=:user_id"), {'user_id': test_user.id})
         connection.commit()
+
+# This function cleans the database before running each test to avoid tests colliding.      
+@pytest.fixture(autouse=True)
+def clean_database():
+    with engine.connect() as conn:
+        conn.execute(text("DELETE FROM bills"))
+        conn.execute(text("DELETE FROM subscriptions"))
+        conn.execute(text("DELETE FROM users"))
+        conn.commit()
+    yield

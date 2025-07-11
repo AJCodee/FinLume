@@ -11,6 +11,7 @@ def test_create_new_bill(test_user):
         "title": "newtitle",
         "amount": 15,
         "due_date": "2025-01-01",
+        "user_id": test_user.id
     })
     assert response.status_code == 201
     assert response.json()["title"] == "newtitle"
