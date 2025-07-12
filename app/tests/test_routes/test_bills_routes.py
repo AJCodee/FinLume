@@ -15,3 +15,11 @@ def test_create_new_bill(test_user):
     })
     assert response.status_code == 201
     assert response.json()["title"] == "newtitle"
+    
+def test_get_all_bills(test_user_payment):
+    response = client.get(f"/Bills/get-all")
+    assert response.status_code == 200
+    
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) >= 1
