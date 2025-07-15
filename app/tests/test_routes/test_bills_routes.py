@@ -27,4 +27,10 @@ def test_get_all_bills(test_user_payment):
 def test_get_all_bills_none():
     response = client.get("/Bills/get-all")
     assert response.status_code == 404
-    assert response.json['detail'] == "No bills found"
+    assert response.json()['detail'] == "No bills found"
+
+def test_get_bill_by_id(test_user_payment):
+    bill_id = test_user_payment.id
+    response = client.get(f"/Bills/bill-by-id/{bill_id}")
+    
+    assert response.status_code == 200

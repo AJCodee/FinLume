@@ -23,9 +23,9 @@ async def get_all_bills(user: user_dependency, db: db_dependency):
     return bills
 
 # Return bills by ID.
-@router.get("/bill-by-id", status_code=status.HTTP_200_OK)
-async def get_bill_by_id(user_id : int, user: user_dependency, db: db_dependency):
-    bill = bill_manager.get_bill_by_id(user_id=user_id, db=db)
+@router.get("/bill-by-id/{bill.id}", status_code=status.HTTP_200_OK)
+async def get_bill_by_id(bill_id : int, user: user_dependency, db: db_dependency):
+    bill = bill_manager.get_bill_by_id(bill_id=bill_id, db=db)
     if not bill:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bill not found")
     return bill

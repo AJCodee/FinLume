@@ -11,7 +11,6 @@ THINGS TO LOOK AT
 
 NEEDS WORK / TODO
 
-- Make sure to go in Test utils and change the payments
-- amount should be amount = 18 not amount = '18'
+- test get bill by id is not working, as bill id is not generated in the utils fixture.
 
-wrong format..... Look into changing payments in utils test_user.
+- Adapt test user payments to create and id for bills and subscriptions for testing.
