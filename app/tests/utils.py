@@ -68,6 +68,11 @@ def test_user_payment(test_user):
         user_id = test_user.id # Link Bill to the user.
     )
     
+    # Adding bill to the database to generate ID
+    db.add(payment1)
+    db.commit()
+    db.refresh(payment1)
+    
     payment2 = Subscriptions(
         service_name = 'Netflix',
         monthly_cost = 15,
@@ -78,8 +83,10 @@ def test_user_payment(test_user):
     db.add_all([payment1, payment2])
     db.commit()
     
-    yield test_user
-
+    yield {
+        'test_user': test_user,
+        'bill': payment1
+        }
     # Cleanup: Assumes payment tables are cleaned as shown.
     with engine.connect() as connection:
         connection.execute(text("DELETE FROM bills WHERE user_id=:user_id"), {'user_id': test_user.id})

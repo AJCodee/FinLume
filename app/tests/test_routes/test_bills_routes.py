@@ -30,7 +30,7 @@ def test_get_all_bills_none():
     assert response.json()['detail'] == "No bills found"
 
 def test_get_bill_by_id(test_user_payment):
-    bill_id = test_user_payment.id
-    response = client.get(f"/Bills/bill-by-id/{bill_id}")
+    bill = test_user_payment['bill']
+    response = client.get(f"/Bills/bill-by-id/{bill.id}")
     
     assert response.status_code == 200
