@@ -53,46 +53,38 @@ def test_user():
         connection.execute(text("DELETE FROM users;"))
         connection.commit()
 
-# Function used to import test payments against endpoints
-# Imported Test user to stop creating users with same credentials clashing.
+# Fixture for testing bill routes.
 @pytest.fixture
-def test_user_payment(test_user):
-
+def test_bill(test_user):
+    bill = Bills(
+        title="Electric",
+        amount=100,
+        due_date="2025-01-01",
+        user_id=test_user.id
+    )
+    
     db = TestingSessionLocal()
-    
-    # Creating some fake payments for testing purposes
-    payment1 = Bills(
-        title = 'gas',
-        amount = 18,
-        due_date = '01/01/2025',
-        user_id = test_user.id # Link Bill to the user.
+    db.add(bill)
+    db.commit()
+    db.refresh(bill)
+    return bill
+
+#Fixture for testing subscriptions routes.
+@pytest.fixture
+def test_subscription(test_user):
+    sub = Subscriptions(
+        service_name="Netflix",
+        monthly_cost=15,
+        renewal_date="2025-02-02",
+        user_id=test_user.id
     )
     
-    # Adding bill to the database to generate ID
-    db.add(payment1)
-    db.commit()
-    db.refresh(payment1)
-    
-    payment2 = Subscriptions(
-        service_name = 'Netflix',
-        monthly_cost = 15,
-        renewal_date = '01/01/2024',
-        user_id = test_user.id # Link Subscription to the user.
-    )
-    
-    db.add_all([payment1, payment2])
-    db.commit()
-    
-    yield {
-        'test_user': test_user,
-        'bill': payment1
-        }
-    # Cleanup: Assumes payment tables are cleaned as shown.
-    with engine.connect() as connection:
-        connection.execute(text("DELETE FROM bills WHERE user_id=:user_id"), {'user_id': test_user.id})
-        connection.execute(text("DELETE FROM subscriptions WHERE user_id=:user_id"), {'user_id': test_user.id})
-        connection.execute(text("DELETE FROM users WHERE id=:user_id"), {'user_id': test_user.id})
-        connection.commit()
+    db = TestingSessionLocal()
+    db.add(sub)
+    db.commi()
+    db.refresh(sub)
+    return sub
+
 
 # This function cleans the database before running each test to avoid tests colliding.      
 @pytest.fixture(autouse=True)
