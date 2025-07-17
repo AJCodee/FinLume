@@ -81,7 +81,7 @@ def test_subscription(test_user):
     
     db = TestingSessionLocal()
     db.add(sub)
-    db.commi()
+    db.commit()
     db.refresh(sub)
     return sub
 

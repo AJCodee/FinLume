@@ -16,7 +16,7 @@ def test_create_new_bill(test_user):
     assert response.status_code == 201
     assert response.json()["title"] == "newtitle"
     
-def test_get_all_bills(test_user_payment):
+def test_get_all_bills(test_bill):
     response = client.get("/Bills/get-all")
     assert response.status_code == 200
     
@@ -29,8 +29,6 @@ def test_get_all_bills_none():
     assert response.status_code == 404
     assert response.json()['detail'] == "No bills found"
 
-def test_get_bill_by_id(test_user_payment):
-    bill = test_user_payment['bill']
-    response = client.get(f"/Bills/bill-by-id/{bill.id}")
-    
+def test_get_bill_by_id(test_bill):
+    response = client.get(f"/Bills/bill-by-id/{test_bill.id}")
     assert response.status_code == 200
