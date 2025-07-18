@@ -32,3 +32,7 @@ def test_get_all_bills_none():
 def test_get_bill_by_id(test_bill):
     response = client.get(f"/Bills/bill-by-id/{test_bill.id}")
     assert response.status_code == 200
+    
+    # Checking that the data matches. 
+    data = response.json()
+    assert data['title'] == "Electric"
