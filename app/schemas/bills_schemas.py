@@ -14,7 +14,7 @@ class BillCreate(BillBase):
     """Model for creating a new Bill"""
     user_id: int # Used to link a Bill to a user.
     
-class BillUpdate(BillBase):
+class BillUpdate(BaseModel):
     """Model for updating an existing Bill"""
     
     title: Optional[str] = None

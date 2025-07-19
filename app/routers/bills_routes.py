@@ -1,7 +1,7 @@
 # Routes for Bills.
 from fastapi import APIRouter, status, HTTPException
 from app.crud.bills_crud import BillCRUD
-from app.schemas.bills_schemas import BillCreate, BillUpdate
+from app.schemas.bills_schemas import BillCreate, BillUpdate, BillResponse
 from app.database import db_dependency, user_dependency
 
 router = APIRouter(tags=["Bills"], prefix="/Bills")
@@ -31,7 +31,7 @@ async def get_bill_by_id(bill_id : int, user: user_dependency, db: db_dependency
     return bill
 
 # Return all bills for certain user.
-@router.get("/user-bills", status_code=status.HTTP_200_OK)
+@router.get("/user-bills/{user_id}", status_code=status.HTTP_200_OK)
 async def get_bill_per_user(user_id: int, user: user_dependency, db: db_dependency):
     user_bills = bill_manager.get_bill_per_user(user_id=user_id, db=db)
     if not user_bills:
@@ -39,11 +39,13 @@ async def get_bill_per_user(user_id: int, user: user_dependency, db: db_dependen
     return user_bills
 
 # Updates a bill in the database.
-@router.put("/update-bill/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.put("/update-bill/{bill_id}", response_model= BillResponse, status_code=status.HTTP_200_OK)
 async def update_bill(bill_id: int, bill_data: BillUpdate, user: user_dependency, db: db_dependency):
-    updated_bill = bill_manager.update_bill(bill_id=bill_id, bill_data=bill_data, db=db)
-    if not updated_bill:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bill not found")
+    try:
+        updated_bill = bill_manager.update_bill(bill_id=bill_id, bill_data=bill_data, db=db)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bill not found") from e
+
     return updated_bill
 
 # Deletes a bill in the database.
