@@ -6,6 +6,7 @@ from app.tests.utils import *
 app.dependency_overrides[get_db] = override_get_db
 app.dependency_overrides[get_current_user] = override_get_current_user
 
+# Test for creating a new bill.
 def test_create_new_bill(test_user):
     response = client.post("/Bills/create",json={
         "title": "newtitle",
@@ -15,7 +16,8 @@ def test_create_new_bill(test_user):
     })
     assert response.status_code == 201
     assert response.json()["title"] == "newtitle"
-    
+
+# Testing returning all bills.    
 def test_get_all_bills(test_bill):
     response = client.get("/Bills/get-all")
     assert response.status_code == 200
@@ -23,12 +25,14 @@ def test_get_all_bills(test_bill):
     data = response.json()
     assert isinstance(data, list)
     assert len(data) >= 1
-    
+
+# Test to return an empty list of bills.
 def test_get_all_bills_none():
     response = client.get("/Bills/get-all")
     assert response.status_code == 404
     assert response.json()['detail'] == "No bills found"
 
+# Testing returning a book by ID.
 def test_get_bill_by_id(test_bill):
     response = client.get(f"/Bills/bill-by-id/{test_bill.id}")
     assert response.status_code == 200
@@ -78,5 +82,15 @@ def test_update_bill_not_found():
     fake_data = {'title': 'No title'}
     
     response = client.put(f"/Bills/update-bill/{non_bill_id}", json=fake_data)
+    assert response.status_code == 404
+    assert response.json()['detail'] == 'Bill not found'
+    
+def test_delete_bill(test_bill):
+    bill_id = test_bill.id
+    response = client.delete(f"/Bills/delete-bill/{bill_id}")
+    assert response.status_code == 204
+    
+    # Check that the bill has been deleted by trying to retrieve ID
+    response = client.get(f"/Bills/bill-by-id/{bill_id}")
     assert response.status_code == 404
     assert response.json()['detail'] == 'Bill not found'

@@ -49,7 +49,7 @@ async def update_bill(bill_id: int, bill_data: BillUpdate, user: user_dependency
     return updated_bill
 
 # Deletes a bill in the database.
-@router.delete("/delete/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/delete-bill/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_bill(bill_id: int, user: user_dependency, db: db_dependency):
     success = bill_manager.delete_bill(bill_id=bill_id, db=db)
     if not success:

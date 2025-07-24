@@ -15,7 +15,7 @@ class SubscriptionCreate(SubscriptionBase):
     """Model for creating a new Subscription"""
     user_id: int # Used to link a Subscription to a User
 
-class SubscriptionUpdate(SubscriptionBase):
+class SubscriptionUpdate(BaseModel):
     """Model for updating an existing Subscription"""
     
     service_name: Optional[str] = None

@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, status, HTTPException
 from app.crud.sub_crud import SubscriptionCrud
-from app.schemas.sub_schemas import SubscriptionCreate, SubscriptionUpdate
+from app.schemas.sub_schemas import SubscriptionCreate, SubscriptionUpdate, SubscriptionResponse
 from app.database import db_dependency, user_dependency
 
 router = APIRouter(tags=["Subscription"], prefix='/Subscription')
@@ -24,7 +24,7 @@ async def get_all_subscriptions(user: user_dependency, db: db_dependency):
     return subscriptions
 
 # Returns all the subscriptions for a select user
-@router.get("/user-subscriptions", status_code=status.HTTP_200_OK)
+@router.get("/user-subscriptions/{user_id}", status_code=status.HTTP_200_OK)
 async def subscriptions_per_user(user_id: int, user: user_dependency, db: db_dependency):
     user_subscriptions = sub_manager.subscriptions_per_user(user_id=user_id, db=db)
     if not user_subscriptions:
@@ -40,10 +40,11 @@ async def get_subscription_by_id(sub_id: int, user: user_dependency, db: db_depe
     return subs
 
 # Update a subscription
-@router.put("/update/{sub_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.put("/update/{sub_id}", response_model= SubscriptionResponse, status_code=status.HTTP_200_OK)
 async def update_subscription(sub_id: int, sub: SubscriptionUpdate, user: user_dependency, db: db_dependency):
-    updated_subscription = sub_manager.update_subscription(sub_id=sub_id, sub=sub, db=db)
-    if not updated_subscription:
+    try:
+        updated_subscription = sub_manager.update_subscription(sub_id=sub_id, sub=sub, db=db)
+    except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Subscription not found")
     return updated_subscription
 
