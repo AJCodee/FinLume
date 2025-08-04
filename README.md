@@ -1,48 +1,89 @@
 # FinLume
 
-The prefix "Fin" relates to finance, while "Lume" suggests illumination or clarity,
-implying that your app brings light to financial management.
+🧾 FinLume – Personal Finance Tracker (Backend-Only)
+🚀 Project Overview
 
-Finance - Bill Tracker App
+FinLume is a backend-only personal finance tracker built using Python FastAPI. The aim is to provide a lightweight, secure, and scalable foundation for managing personal income, expenses, and savings—all through a clean API interface.
 
-This will be an App that users can track theirs personal bills, subscriptions etc.
+This project is part of my ongoing journey to deepen my backend development skills and understanding of building real-world applications with FastAPI, PostgreSQL, and token-based authentication.
 
-Structure:
+🔧 Tech Stack
 
-- FinLume/
-  -- app/
-  --- main.py
-  --- models.py
-  --- schemas.py
-  --- crud.py
-  --- database.py
-  --- routers/
-  ---- **init**.py
-  ---- users.py
-  ---- bills.py
-  ---- subscriptions.py
-  -- tests/
-  -- requirements.txt
-  -- README.md
+- Python 3.11+
+- FastAPI
+- PostgreSQL
+- SQLAlchemy
+- Pydantic
+- Alembic (Migrations) # Work in progress
+- Docker (Optional for Deployment) # Work in progress
+- JWT Authentication
 
-Possible Features to implement:
+✨ Key Features
 
-- User Registration and Authentication
-  Allow users to sign up, log in, and log out.
-  Secure passwords with hashing and use JWT for session management.
+- User registration & login (JWT-based authentication)
+- Add / edit / delete financial transactions (income, expense)
+- Categorize transactions (Bills / Subscriptions)
+- Data validation with Pydantic
+- Environment-safe settings with .env
+- Database migrations with Alembic (Coming Soon)
 
-- Track Bills and Subscriptions
-  Users can create, read, update, and delete bills and subscriptions.
-  Implement categories (e.g., utilities, entertainment) for better organization.
+finlume/
+├── app/
+│ ├── crud/
+│ ├── routers/
+│ ├── tests/
+│ ├── schemas/
+│ └── main.py
+├── auth_utils.py
+├── database.py
+├── requirements.txt
+├── main.py
+├── models.py
+├── utils.py
+└── README.md
 
-- Notifications
-  Send reminders for upcoming bills or subscription renewals via email or SMS.
+Setup Instructions (Local Development)
 
-- Analytics Dashboard
-  Provide users with an overview of their spending habits using basic data visualization (e.g., bar charts for monthly expenditure).
+Step 1 - clone the repo
 
-- Budgeting Tool
-  Allow users to set a monthly budget and track their progress.
+"git clone https://github.com/YOURUSERNAME/finlume.git
+cd finlume"
 
-- Search and Filter
-  Enable users to search and filter their entries based on date, category, or amount.
+Step 2 - Create and activate the virtual enviroment
+
+"python -m venv venv
+source venv/bin/activate # or venv\Scripts\activate on Windows"
+
+Step 3 - Install Dependencies
+
+"pip install -r requirements.txt"
+
+Step 4 - Set up the .env file
+
+"Create a .env file using the provided .env.example as a template."
+
+Step 5 - Run the app
+
+"uvicorn app.main:app --reload"
+
+🔒 Authentication
+
+FinLume uses JWT tokens for user authentication. Upon login, you'll receive an access token to use in the Authorization header when making requests.
+
+✅ Roadmap
+
+User authentication (JWT)
+
+Basic transaction CRUD
+
+Financial reports / summaries
+
+Docker containerization
+
+Frontend (React or Next.js – future scope)
+
+🧑‍💻 About Me
+
+I'm Alex, a self-taught Python developer currently working towards a career tranistion. Running a gardening business at the moment until I can make the switch. Focused on backend development with FastAPI. This project reflects my interest in building real-world, useful tools while improving my architecture, testing, and deployment workflows.
+
+Feel free to explore the code, raise issues, or offer suggestions!
