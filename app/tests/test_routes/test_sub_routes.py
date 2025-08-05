@@ -15,7 +15,8 @@ def test_create_new_subscriptions(test_user):
     
     assert response.status_code == 201
     assert response.json()["service_name"] == "newservice"
-    
+
+# Test for retrieving all subscriptions.
 def test_get_all_subscriptions(test_subscription):
     response = client.get("/Subscription/get-all")
     assert response.status_code == 200
@@ -23,7 +24,8 @@ def test_get_all_subscriptions(test_subscription):
     data = response.json()
     assert isinstance(data, list)
     assert len(data) >= 1
-    
+
+# Test for retrieving an empty list of subscriptions.
 def test_get_all_subscriptions_none():
     response = client.get("/Subscription/get-all")
     assert response.status_code == 404 
