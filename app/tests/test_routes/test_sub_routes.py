@@ -30,7 +30,8 @@ def test_get_all_subscriptions_none():
     response = client.get("/Subscription/get-all")
     assert response.status_code == 404 
     assert response.json()['detail'] == "No subscriptions found"
-    
+
+# Test for retrieving subscriptions per user.
 def test_subscriptions_per_user(test_user, test_subscription):
     response = client.get(f"/Subscription/user-subscriptions/{test_user.id}")
     
@@ -39,13 +40,15 @@ def test_subscriptions_per_user(test_user, test_subscription):
     data = response.json()
     assert isinstance(data, list)
     assert len(data) == 1
-    
+
+# Test for retrieving subscriptions for a non exsiting user.
 def test_subscriptions_per_user_not_found():
     non_user_id = 9998
     response = client.get(f"/Subscription/user-subscriptions/{non_user_id}")
     assert response.status_code == 404
     assert response.json()['detail'] == "No subscriptions found for this user"
-    
+
+# Test for retrieving a sunbscription by ID.    
 def test_get_subscription_by_id(test_subscription):
     response = client.get(f"/Subscription/get-by-id/{test_subscription.id}")
     assert response.status_code == 200
@@ -53,14 +56,16 @@ def test_get_subscription_by_id(test_subscription):
     data = response.json()
     assert data['service_name'] == "Netflix"
     assert data['monthly_cost'] == 15
-    
+
+# Test for retrieving a subscription that doesnt exsist.    
 def test_get_subscription_by_id_not_found():
     non_id = 999
     response = client.get(f"/Subscription/get-by-id/{non_id}")
     
     assert response.status_code == 404
     assert response.json()['detail'] == "Subscription not found"
-    
+
+# Test for updating a subscription.    
 def test_update_subscription(test_subscription):
     sub_id = test_subscription.id
     
@@ -73,7 +78,8 @@ def test_update_subscription(test_subscription):
     updated_subscription = response.json()
     assert updated_subscription['service_name'] == "newname"
     assert updated_subscription['id'] == sub_id
-    
+
+# Test for attempting to update a subscription that does not exsist.    
 def test_update_subscription_not_found():
     non_sub_id = 555
     
@@ -82,7 +88,8 @@ def test_update_subscription_not_found():
     response = client.put(f"/Subscription/update/{non_sub_id}", json= fake_data)
     assert response.status_code == 404
     assert response.json()['detail'] == "Subscription not found"
-    
+
+# test for deleting a subscription.    
 def test_delete_subscription(test_subscription):
     sub_id = test_subscription.id
     response = client.delete(f"/Subscription/delete/{sub_id}")
