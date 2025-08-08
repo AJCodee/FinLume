@@ -41,12 +41,14 @@ def test_get_bill_by_id(test_bill):
     data = response.json()
     assert data['title'] == "Electric"
     assert data['amount'] == 100
-    
+
+# Test for retrieving a bill that doesnt exsist.
 def test_get_bill_by_id_none():
     non_exsiting_id = 8888
     response = client.get(f"/Bills/bill-by-id/{non_exsiting_id}")
     assert response.status_code == 404
-    
+
+# Test for retrieving all bills for a user.
 def test_get_bill_per_user(test_user, test_bill):
     response = client.get(f"/Bills/user-bills/{test_user.id}")
     
@@ -56,13 +58,15 @@ def test_get_bill_per_user(test_user, test_bill):
     data = response.json()
     assert isinstance(data, list)
     assert len(data) == 1
-    
+
+# Test for retrieving bills for a user that doesnt exsist.
 def test_get_bill_per_user_not_found():
     non_user_id = 9995
     response = client.get(f"/Bills/user-bills/{non_user_id}")
     assert response.status_code == 404
     assert response.json()['detail'] == "No bills found for this user"
-    
+
+# Test for updating a bill.
 def test_update_bill(test_bill):
     bill_id = test_bill.id 
     
@@ -75,7 +79,8 @@ def test_update_bill(test_bill):
     updated_bill = response.json()
     assert updated_bill['title'] == "testbill"
     assert updated_bill['id'] == bill_id
-    
+
+# Test for trying to retrieve a bill that doesnt exsist.
 def test_update_bill_not_found():
     non_bill_id = 9898
     
@@ -84,7 +89,8 @@ def test_update_bill_not_found():
     response = client.put(f"/Bills/update-bill/{non_bill_id}", json=fake_data)
     assert response.status_code == 404
     assert response.json()['detail'] == 'Bill not found'
-    
+
+# Test for deleting a bill.
 def test_delete_bill(test_bill):
     bill_id = test_bill.id
     response = client.delete(f"/Bills/delete-bill/{bill_id}")
