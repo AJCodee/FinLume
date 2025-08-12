@@ -3,7 +3,8 @@ from app.routers.user_routes import router as user_router
 from app.routers.sub_routes import router as sub_router
 from app.routers.bills_routes import router as bill_router
 from app.routers.auth_routes import router as auth_router
-from app.database import engine, Base
+from app.database import engine
+from app.db_config import Base
 
 # Initiates FastAPI.
 app = FastAPI()

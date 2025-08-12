@@ -4,18 +4,9 @@ from fastapi import Depends
 from typing import Annotated
 from dotenv import load_dotenv
 from app.auth_utils import get_current_user
-import os
 
-load_dotenv()
-# Load environment variables from .env file
-username = os.getenv("DB_USERNAME")
-password = os.getenv("DB_PASSWORD")
-host = os.getenv("DB_HOST")
-port = os.getenv("DB_PORT")
-database = os.getenv("DB_NAME")
-
-# Database URL, Connects to the database in postgres/PgAdmin
-SQLALCHEMY_DATABASE_URL = f"postgresql://{username}:{password}@{host}:{port}/{database}"
+# Import shared DB URL + Base from the lightweight module
+from app.db_config import SQLALCHEMY_DATABASE_URL, Base
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
