@@ -11,6 +11,7 @@ host = os.getenv("DB_HOST")
 port = os.getenv("DB_PORT")
 database = os.getenv("DB_NAME")
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://{username}:{password}@{host}:{port}/{database}"
+# Added +psycopg as using latest version psycopg3
+SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg://{username}:{password}@{host}:{port}/{database}"
 
 Base = declarative_base()
