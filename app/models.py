@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, DateTime, Numeric, Index
 from sqlalchemy.orm import relationship
 from app.db_config import Base
+from datetime import datetime
 
 # This is the User model
 class User(Base):
@@ -48,3 +49,42 @@ class Subscriptions(Base):
     
     user_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", back_populates="subscriptions")
+    
+# SECTION BELOW IS FOR BEGINNING ADDING AI INTO PROJECT.
+
+# New class for dealing with Transactions.
+class Transaction(Base):
+    """ This is the Transaction model.
+    It is a SQLAlachemy model that represents the transactions table in the database. """
+    
+    __tablename__ = "transactions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("user.id"), index=True, nullable=False)
+    
+    
+    merchant = Column(String, default="", index=True)
+    description = Column(String, default="")
+    amount = Column(Numeric(12, 2), nullable=False)   # money: use Decimal in app layer
+    posted_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+    # human-accepted label (nullable; AI suggests, user confirms)
+    category = Column(String, nullable=True, index=True)
+
+    owner = relationship("User", back_populates="transactions")
+    
+# Store AI suggestions (history, audit)
+class AIPrediction(Base):
+    """ This is the AIPrediction model
+    It is a SQLAlachemy model that represents the AIPrediction table in the database. """
+    
+    __tablename__ = "ai_predictions"
+
+    id = Column(Integer, primary_key=True)
+    tx_id = Column(Integer, ForeignKey("transactions.id"), index=True, nullable=False)
+    model_name = Column(String, default="rules_v1")
+    predicted_category = Column(String, nullable=False, index=True)
+    confidence = Column(Float, default=0.0)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+    transaction = relationship("Transaction")
