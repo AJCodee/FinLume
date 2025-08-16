@@ -3,6 +3,7 @@ from fastapi import APIRouter, status, HTTPException
 from app.crud.bills_crud import BillCRUD
 from app.schemas.bills_schemas import BillCreate, BillUpdate, BillResponse
 from app.database import db_dependency, user_dependency
+from typing import List
 
 router = APIRouter(tags=["Bills"], prefix="/Bills")
 
@@ -10,7 +11,7 @@ router = APIRouter(tags=["Bills"], prefix="/Bills")
 bill_manager = BillCRUD()
 
 # Creating a new Bill to add to the database.
-@router.post("/create", status_code=status.HTTP_201_CREATED)
+@router.post("/create", response_model=BillResponse, status_code=status.HTTP_201_CREATED)
 async def create_new_bill(bill_data: BillCreate, user: user_dependency, db: db_dependency):
     return bill_manager.create_new_bill(bill_data=bill_data, db=db)
 
@@ -23,7 +24,7 @@ async def get_all_bills(user: user_dependency, db: db_dependency):
     return bills
 
 # Return bills by ID.
-@router.get("/bill-by-id/{bill_id}", status_code=status.HTTP_200_OK)
+@router.get("/bill-by-id/{bill_id}", response_model=BillResponse, status_code=status.HTTP_200_OK)
 async def get_bill_by_id(bill_id : int, user: user_dependency, db: db_dependency):
     bill = bill_manager.get_bill_by_id(bill_id=bill_id, db=db)
     if not bill:
@@ -31,7 +32,7 @@ async def get_bill_by_id(bill_id : int, user: user_dependency, db: db_dependency
     return bill
 
 # Return all bills for certain user.
-@router.get("/user-bills/{user_id}", status_code=status.HTTP_200_OK)
+@router.get("/user-bills/{user_id}", response_model=List[BillResponse], status_code=status.HTTP_200_OK)
 async def get_bill_per_user(user_id: int, user: user_dependency, db: db_dependency):
     user_bills = bill_manager.get_bill_per_user(user_id=user_id, db=db)
     if not user_bills:

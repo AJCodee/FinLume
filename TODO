@@ -1,16 +1,21 @@
-1. Work on hashing password when a new user is created
+List of things that I need to work on:
 
-- firstly import = from passlib.context import CryptContext
-- then create a CryptContext object = bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-- then use the bcrypt_context to hash the password = hashed_password = bcrypt_context.hash(user.password)
+Normalize routes to REST + lowercase; add /api/v1.
 
-THINGS TO LOOK AT
+Switch routes to sync (short-term) or move DB to async (better).
 
-- Look into Docker
-- Look into cloud azure ?
+Move validation into Pydantic; delete _validate_\*.
 
-NEEDS WORK / TODO
+Add ownership checks to all bill reads/updates/deletes.
 
-- test get bill by id is not working, as bill id is not generated in the utils fixture.
+Introduce domain exceptions + handlers.
 
-- Adapt test user payments to create and id for bills and subscriptions for testing.
+Add pagination to GET /bills.
+
+Add .gitignore, pyproject.toml (black, ruff, isort, mypy), and CI.
+
+Write tests for bills CRUD + auth.
+
+Rename Bills → Bill; tidy modules: schemas/bill.py, repositories/bill.py, services/bill.py.
+
+Create .env.example, Dockerfile, docker-compose.yml, and a clear README.
