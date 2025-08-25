@@ -24,7 +24,7 @@ class User(Base):
 class Bills(Base):
     """ This is the Bills model. 
     It is a SQLAlchemy model that represents the bills table in the database. """
-    
+   
     __tablename__ = "bills"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -37,7 +37,7 @@ class Bills(Base):
     owner = relationship("User", back_populates="bills")
     
 class Subscriptions(Base):
-    """ This is the Subscriptions model. 
+    """ This is the Subscriptions model.  
     It is a SQLAlchemy model that represents the subscriptions table in the database. """
     
     __tablename__ = "subscriptions"

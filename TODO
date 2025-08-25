@@ -1,21 +1,9 @@
-List of things that I need to work on:
+Refactor / Restructure
 
-Normalize routes to REST + lowercase; add /api/v1.
+db folder
 
-Switch routes to sync (short-term) or move DB to async (better).
+created session to deal with engine, sessionlocal and get_db()
+Split models into app/db/models and collect them in an __init__.py file.
 
-Move validation into Pydantic; delete _validate_\*.
 
-Add ownership checks to all bill reads/updates/deletes.
 
-Introduce domain exceptions + handlers.
-
-Add pagination to GET /bills.
-
-Add .gitignore, pyproject.toml (black, ruff, isort, mypy), and CI.
-
-Write tests for bills CRUD + auth.
-
-Rename Bills → Bill; tidy modules: schemas/bill.py, repositories/bill.py, services/bill.py.
-
-Create .env.example, Dockerfile, docker-compose.yml, and a clear README.
