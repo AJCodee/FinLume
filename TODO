@@ -3,7 +3,7 @@ Refactor / Restructure
 db folder
 
 created session to deal with engine, sessionlocal and get_db()
-Split models into app/db/models and collect them in an __init__.py file.
+Split models into app/db/models and collect them in an __init__.py file. # CURRENTLY WORKING ON 
 
 
 
