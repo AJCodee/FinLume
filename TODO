@@ -2,8 +2,27 @@ Refactor / Restructure
 
 db folder
 
+# Currently working on.
+
 created session to deal with engine, sessionlocal and get_db()
-Split models into app/db/models and collect them in an __init__.py file. # CURRENTLY WORKING ON 
+Split models into app/db/models and collect them in an **init**.py file.
 
+need to change routers to - api/v1 and add a deps.py file that holds
 
+# app/api/deps.py
 
+from typing import Annotated
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from app.db.session import get_db
+from app.core.security import get_current_user # wherever you implement it
+
+DbDep = Annotated[Session, Depends(get_db)]
+UserDep = Annotated[dict, Depends(get_current_user)]
+
+created:
+
+- user model
+- **init** file
+- config.py
+- session.py
