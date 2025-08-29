@@ -4,12 +4,9 @@ db folder
 
 # Currently working on.
 
-created session to deal with engine, sessionlocal and get_db()
 Split models into app/db/models and collect them in an **init**.py file.
 
 need to change routers to - api/v1 and add a deps.py file that holds
-
-# app/api/deps.py
 
 created:
 

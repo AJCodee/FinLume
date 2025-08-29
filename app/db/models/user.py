@@ -17,3 +17,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    
+    # relationships (Obviously need to create models for these.)
+    category: Mapped[list["Category"]] = relationship(back_populates="owner")
+    transaction: Mapped[list["Transaction"]] = relationship(back_populates="owner")
