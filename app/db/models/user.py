@@ -1,6 +1,7 @@
 # class for User.
 from sqlalchemy.orm import declarative_base, relationship, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
+from . import Base
 Base = declarative_base()
 
 # This is the User model
