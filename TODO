@@ -2,15 +2,16 @@ Refactor / Restructure
 
 db folder
 
+# Things completed
+
+- database done
+- core / security done
+- models done
+- Schemas (Working on)
+
 # Currently working on.
 
 Split models into app/db/models and collect them in an **init**.py file.
+Models created, relationships have been refined.
 
 need to change routers to - api/v1 and add a deps.py file that holds
-
-created:
-
-- user model
-- **init** file
-- config.py
-- session.py
