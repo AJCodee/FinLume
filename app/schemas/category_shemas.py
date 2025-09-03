@@ -11,9 +11,12 @@ class CategoryCreate(CategoryBase):
     pass
 
 class CategoryUpdate(BaseModel):
+    """ Model for updating a Category information """
     name: Optional[Annotated[str, StringConstraints(min_length=2, max_length=120)]] = None
     
 class CategoryResponse(BaseModel):
+    """ Model for Category responses """
+    
     id: int
     name: str
     
