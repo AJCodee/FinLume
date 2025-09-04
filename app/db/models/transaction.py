@@ -17,7 +17,7 @@ class Transaction(Base):
     __tablename__ = "transactions"
     
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
     merchant: Mapped[str] = mapped_column(String(200), default="", index=True)
     amount: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)
     posted_at: Mapped[datetime] = mapped_column(DateTime(timeone=True), index=True, nullable=False)
@@ -25,4 +25,4 @@ class Transaction(Base):
     
     # relationships
     owner: Mapped["User"] = relationship(back_populates="transactions")
-    category: Mapped["Category | None"] = relationship(back_populates="transations")
+    category: Mapped["Category | None"] = relationship(back_populates="transactions")

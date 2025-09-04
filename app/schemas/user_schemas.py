@@ -17,9 +17,9 @@ class UserCreate(UserBase):
     
 class UserUpdate(BaseModel):
     """ Model for updating user information, allowing for partial updates. """
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    username: Optional[str] = None
+    first_name: Optional[Annotated[str, StringConstraints(min_length=2, max_length=50)]] = None
+    last_name: Optional[Annotated[str, StringConstraints(min_length=2, max_length=50)]] = None
+    username: Optional[Annotated[str, StringConstraints(min_length=2, max_length=50)]] = None
     email: Optional[EmailStr] = None
     is_active: Optional[bool] = None
 
@@ -27,6 +27,5 @@ class UserResponse(UserBase):
     """ Model for user responses, Includes the user's ID. """
     id: int
     
-    class ConfigDict:
-        from_attributes = True
+    model_config = {"from_attributes": True}
         

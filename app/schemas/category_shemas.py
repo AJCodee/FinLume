@@ -12,7 +12,7 @@ class CategoryCreate(CategoryBase):
 
 class CategoryUpdate(BaseModel):
     """ Model for updating a Category information """
-    name: Optional[Annotated[str, StringConstraints(min_length=2, max_length=120)]] = None
+    name: Optional[Annotated[str, StringConstraints(min_length=2, max_length=50)]] = None
     
 class CategoryResponse(BaseModel):
     """ Model for Category responses """
