@@ -38,3 +38,4 @@ class TransactionResponse(BaseModel):
     note: str
     
     model_config = {"from_attributes": True}
+    

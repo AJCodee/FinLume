@@ -7,7 +7,8 @@ db folder
 - database done
 - core / security done
 - models done
-- Schemas (Working on)
+- Schemas done
+- crud now moving them to repositories (Working on), Look into where to put auth_crud ??
 
 # Currently working on.
 

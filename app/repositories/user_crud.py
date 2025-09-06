@@ -1,6 +1,6 @@
-from app.models import User
+from app.db.models import User
 from app.schemas.user_schemas import UserCreate, UserUpdate
-from app.database import db_dependency
+from app.core.security import db_dependency
 from app.crud.bills_crud import BillCRUD
 from app.crud.sub_crud import SubscriptionCrud
 

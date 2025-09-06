@@ -21,3 +21,4 @@ class CategoryResponse(BaseModel):
     name: str
     
     model_config = {"from_attributes": True}
+    
