@@ -2,14 +2,14 @@
 # Create a new user, login, hash passwords and verify them.
 
 from app.utils import hash_password, verify_password
-from app.models import User
+from app.db.models import User
 from app.schemas.user_schemas import UserCreate 
-from app.database import db_dependency
+from app.api.deps import DbDep
 
 class AuthCrud:
     """ This class will handle authentication related CRUD operations. """
 
-    def create_new_user(self, user: UserCreate, db: db_dependency) -> User:
+    def create_new_user(self, user: UserCreate, db: DbDep) -> User:
         """ This method will create a new user in the database. 
 
         Args: 
@@ -42,7 +42,7 @@ class AuthCrud:
         if not user_data.last_name:
             raise ValueError("Last name is required")
         
-    def authenticate_user(self, username: str, password: str, db: db_dependency) -> User:
+    def authenticate_user(self, username: str, password: str, db: DbDep) -> User:
         """ This method will authenticate a user by their username and password. 
         
         Args:
