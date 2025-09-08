@@ -25,5 +25,29 @@ class CategoryCrud:
         db.add(new_category)
         db.commit()
         db.refresh(new_category)
-        return(new_category)
         
+        return(new_category)
+    
+    def update_category(self, category_id: int, category_data: CategoryUpdate, db: DbDep) -> Category:
+        """ This method will update a category in the database. 
+        
+        Args:
+            category_id (int) ID of the exsisting Category.
+            category_data (CategoryUpdate): the updated data.
+            
+        Raises:
+            ValueError: If the Category does not exist or the data is invalid.
+            """
+            
+        exsisting_category = self.get_category_by_id(category_id, db)
+        if not exsisting_category:
+            raise ValueError("Category not found")
+        
+        self._apply_updates(exsisting_category, category_data) # Need to create _apply_updates.
+        
+        try:
+            db.commit()
+            return exsisting_category
+        except Exception as e:
+            db.rollback()
+            raise ValueError("Failed to update category") from e 
