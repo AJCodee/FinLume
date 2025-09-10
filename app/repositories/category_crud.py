@@ -51,3 +51,7 @@ class CategoryCrud:
         except Exception as e:
             db.rollback()
             raise ValueError("Failed to update category") from e 
+        
+    def get_all_categorys(self, db: DbDep):
+        """ This method will return all the Categorys in the database. """
+        return db.query(Category).all()
