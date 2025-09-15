@@ -55,3 +55,7 @@ class CategoryCrud:
     def get_all_categorys(self, db: DbDep):
         """ This method will return all the Categorys in the database. """
         return db.query(Category).all()
+    
+    def get_category_by_id(self, category_id: int, db: DbDep):
+        """ This method will return a category by ID"""
+        return db.query(Category).filter(Category.id == category_id).first()
