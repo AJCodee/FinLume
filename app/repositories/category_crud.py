@@ -59,3 +59,21 @@ class CategoryCrud:
     def get_category_by_id(self, category_id: int, db: DbDep):
         """ This method will return a category by ID"""
         return db.query(Category).filter(Category.id == category_id).first()
+    
+    def _apply_updates(self, exsisting_category: Category, category_update: CategoryUpdate):
+        """ This model will apply updates to the exsisting category """
+        if category_update.name is not None:
+            exsisting_category.name = category_update.name
+            
+    def delete_category(self, category_id: int, db: DbDep):
+        """ This method will delete an exsisting category from the database """
+        exsisting_category = self.get_category_by_id(category_id, db)
+        if not exsisting_category:
+            raise ValueError("Category does not exist")
+        try:
+            db.delete(exsisting_category)
+            db.commit()
+            return True
+        except Exception as e:
+            db.rollback()
+            raise ValueError("Failed to delete category") from e 
