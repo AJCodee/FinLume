@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user_schemas import UserCreate, UserUpdate, UserResponse
-from app.crud.user_crud import UserCrud 
-from app.database import db_dependency, user_dependency
+from app.repositories.user_crud import UserCrud 
+from app.api.deps import DbDep, UserDep
 from typing import List, Annotated
 
 router = APIRouter(tags=["Users"], prefix="/users")
@@ -10,7 +10,7 @@ user_manager = UserCrud()
 
 # Returning all users    
 @router.get("/return-users", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
-async def get_all_users(db: db_dependency):
+async def get_all_users(db: DbDep):
     users = user_manager.get_all_users(db=db)
     if not users:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No users found")
@@ -18,7 +18,7 @@ async def get_all_users(db: db_dependency):
 
 # Returning a user by ID
 @router.get("/user-by-id/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
-async def get_user_by_id(user_id: int, db: db_dependency):
+async def get_user_by_id(user_id: int, db: DbDep):
     user = user_manager.get_user_by_id(user_id=user_id, db=db)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -26,7 +26,7 @@ async def get_user_by_id(user_id: int, db: db_dependency):
 
 # Endpoint for finding a user by username
 @router.get("/user-by-username/{username}", response_model=UserResponse, status_code=status.HTTP_200_OK)
-async def get_user_by_username(username: str, db: db_dependency):
+async def get_user_by_username(username: str, db: DbDep):
     user = user_manager.get_user_by_username(username=username, db=db)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -34,7 +34,7 @@ async def get_user_by_username(username: str, db: db_dependency):
 
 # Endpoint for returning all the bills and subscription for user.
 @router.get("/all-payments/{user_id}", status_code=status.HTTP_200_OK)
-async def get_user_payments(user_id: int, user: user_dependency, db: db_dependency): # Added user dependency to get the current user (Adds the login oiption)
+async def get_user_payments(user_id: int, user: UserDep, db: DbDep): # Added user dependency to get the current user (Adds the login oiption)
     user_data = user_manager.get_user_payments(user_id=user_id, db=db)
     if not user_data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -43,7 +43,7 @@ async def get_user_payments(user_id: int, user: user_dependency, db: db_dependen
 # Updating a user in the database
 # Using Patch for partial updates. As if you use PUT to change one feild causes feilds you dont change to reset to default.
 @router.put("/update-user/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
-async def update_user(user_id: int, user_data: UserUpdate, user: user_dependency, db: db_dependency):
+async def update_user(user_id: int, user_data: UserUpdate, user: UserDep, db: DbDep):
     try:
         updated_user = user_manager.update_user(user_id=user_id, user_data=user_data, db=db)
         return updated_user
@@ -52,7 +52,7 @@ async def update_user(user_id: int, user_data: UserUpdate, user: user_dependency
 
 # Deleting a user from the database
 @router.delete("/delete-user/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_user(user_id: int, user: user_dependency, db: db_dependency):
+async def delete_user(user_id: int, user: UserDep, db: DbDep):
     success = user_manager.delete_user(user_id=user_id, db=db)
     if not success:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
