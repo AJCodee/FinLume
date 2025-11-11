@@ -1,4 +1,4 @@
-from app.database import get_db
+from app.db.session import get_db
 from app.tests.utils import *
 
 app.dependency_overrides[get_db] = override_get_db

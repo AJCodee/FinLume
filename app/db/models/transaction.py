@@ -18,9 +18,17 @@ class Transaction(Base):
     
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
+    
+       
+    category_id: Mapped[int | None] = mapped_column(
+        ForeignKey("categories.id", ondelete="SET NULL"),
+        index=True,
+        nullable=True,
+    )
+    
     merchant: Mapped[str] = mapped_column(String(200), default="", index=True)
     amount: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)
-    posted_at: Mapped[datetime] = mapped_column(DateTime(timeone=True), index=True, nullable=False)
+    posted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True, nullable=False)
     note: Mapped[str] = mapped_column(String(500), default="", nullable=False)
     
     # relationships

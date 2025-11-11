@@ -2,14 +2,15 @@
 # This file will contain utility functions for testing purposes.
 
 from sqlalchemy import create_engine, text
-from app.database import Base, sessionmaker
+from sqlalchemy.orm import sessionmaker
+from app.db.models import Base
 from app.main import app
 from fastapi.testclient import TestClient
-from app.auth_utils import get_current_user
-from app.models import User, Bills, Subscriptions
+from app.core.security import get_current_user
+from app.db.models import User
 import pytest
 from app.utils import hash_password
-from app.database import get_db
+from app.db.session import get_db
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./testdb.db"
 
@@ -53,45 +54,10 @@ def test_user():
         connection.execute(text("DELETE FROM users;"))
         connection.commit()
 
-# Fixture for testing bill routes.
-@pytest.fixture
-def test_bill(test_user):
-    bill = Bills(
-        title="Electric",
-        amount=100,
-        due_date="2025-01-01",
-        user_id=test_user.id
-    )
-    
-    db = TestingSessionLocal()
-    db.add(bill)
-    db.commit()
-    db.refresh(bill)
-    return bill
-
-#Fixture for testing subscriptions routes.
-@pytest.fixture
-def test_subscription(test_user):
-    sub = Subscriptions(
-        service_name="Netflix",
-        monthly_cost=15,
-        renewal_date="2025-02-02",
-        user_id=test_user.id
-    )
-    
-    db = TestingSessionLocal()
-    db.add(sub)
-    db.commit()
-    db.refresh(sub)
-    return sub
-
-
-# This function cleans the database before running each test to avoid tests colliding.      
+# This function cleans the database before running each test to avoid tests colliding.
 @pytest.fixture(autouse=True)
 def clean_database():
     with engine.connect() as conn:
-        conn.execute(text("DELETE FROM bills"))
-        conn.execute(text("DELETE FROM subscriptions"))
         conn.execute(text("DELETE FROM users"))
         conn.commit()
     yield

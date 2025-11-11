@@ -12,9 +12,4 @@ db folder
 
 # Currently working on.
 
-Split models into app/db/models and collect them in an **init**.py file.
-Models created, relationships have been refined.
-
-need to change routers to - api/v1 and add a deps.py file that holds
-
 need to make routes for category and transaction!! Figure what to do with Auth_routes ??
